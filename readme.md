@@ -1,9 +1,3 @@
-# JS Beginner course notes and excercises
+# JS Beginner course notes and exercises
 
-test
-
-test2
-
-test 4
-
-test 5
+Github Repository: https://github.com/petter0619/jsBeginnerCourse
