@@ -8,11 +8,18 @@
 <body>
 
     <script>
+
+        const person = {
+            firstName: "Petter",
+            lastName: "Carlsson",
+            age: 28
+        };
+
+        console.log(person);
+        console.log(person.firstName);
+
         const hello = "Hello, world!";
-        const name = "Petter";
-        const helloWorld = `Hello, my name is ${name}. Nice to meet you. I am ${8 + 20} years old.`;
-        
-        console.log(hello, name, helloWorld);
+        const helloWorld = `Hello, my name is ${person.firstName}. Nice to meet you. I am ${8 + 20} years old.`;
 
         const html = `
             <div>
@@ -24,6 +31,8 @@
 
         console.log(typeof name);
         console.log(typeof(name));
+
+        
 
     </script>
 </body>
