@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        const hello = "Hello, world!";
+        const name = "Petter";
+        const helloWorld = `Hello, my name is ${name}. Nice to meet you. I am ${8 + 20} years old.`;
+        
+        console.log(hello, name, helloWorld);
+
+        const html = `
+            <div>
+                <h2>${hello}</h2>
+                <p>${helloWorld}</p>
+            </div>
+        `;
+        document.body.innerHTML = html;
+    </script>
+</body>
+</html>
