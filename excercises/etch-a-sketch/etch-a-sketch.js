@@ -1,10 +1,9 @@
-console.log('It works!')
-
 // Select the elements on the page (canves, shake button)
 const canvas = document.querySelector('#etch-a-sketch');
 const ctx = canvas.getContext('2d'); // "The Context" = the place where we do our drawing; aka apply our methods to ("ctx"; common naming convention)
 
 const shakeButton = document.querySelector('.shake');
+
 
 // Setup our canvas for drawing
 
@@ -21,13 +20,22 @@ ctx.moveTo(x, y); // The starting point location: X pixels in (l>r), Y pixels do
 ctx.lineTo(x, y);
 ctx.stroke(); // Above 2 functions make an invisible line, and this "commanc" then strokes it
 
-// Write a draw function
 
+// Write a draw function
+function draw(options) {
+    console.log(options.key);
+}
 
 // Write a handler for the keys
-
+function handleKey(e) {
+    if(e.key.includes('Arrow')) {
+        e.preventDefault();
+        draw({ key: e.key });
+    }
+}
 
 // Write a clear/shake function
 
 
 // Listen for arrow keys
+window.addEventListener('keydown', handleKey);
