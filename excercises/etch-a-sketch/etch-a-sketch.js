@@ -17,6 +17,9 @@ ctx.lineJoin = 'round'; //how the lines will look
 ctx.lineCap = 'round'; 
 ctx.lineWidth = MOVE_AMOUNT;
 
+let hue = 0;
+ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`; // ALT: ${Math.random() * 360}
+
 ctx.beginPath(); // The starting point of the drawing
 ctx.moveTo(x, y); // The starting point location: X pixels in (l>r), Y pixels down.
 ctx.lineTo(x, y);
@@ -25,6 +28,9 @@ ctx.stroke(); // Above 2 functions make an invisible line, and this "commanc" th
 
 // Write a draw function
 function draw({ key }) { // Destructring: Just accepting the "key" key: value pair of the object passed in. You could just have written "options" or "e" to represent the entire object and it would still have worked.
+    hue += 1;
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+
     ctx.beginPath();
     ctx.moveTo(x, y);
 
@@ -90,7 +96,17 @@ function handleKey(e) {
 
 
 // Write a clear/shake function
+function clearCanvas() {
+    canvas.classList.add('shake'); //Shake class triggers the CSS animation that makes it shake
+    ctx.clearRect(0, 0, width, height);
+    canvas.addEventListener('animationend', function() {
+        canvas.classList.remove('shake');
+    },
+    { once: true } // Every time you run an eventListener event on an object you are simple adding another event to it. So if I run this function 5 times, 5 seperate (yet identical) eventListeners will be added to the canvas. {once: true} unbinds the eventListener after it's been run.
+    );
+}
 
 
 // Listen for arrow keys
 window.addEventListener('keydown', handleKey);
+shakeButton.addEventListener('click', clearCanvas);
