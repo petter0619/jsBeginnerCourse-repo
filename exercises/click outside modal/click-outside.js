@@ -3,7 +3,7 @@ const cardButtons = document.querySelectorAll('.card button');
 const modalInner = document.querySelector('.modal-inner');
 const modalOuter = document.querySelector('.modal-outer');
 
-
+// Open modal
 function handleCardButtonClick(event) {
     const button = event.currentTarget;
     const card = button.closest('.card');
@@ -22,6 +22,8 @@ function handleCardButtonClick(event) {
 
 cardButtons.forEach(button => button.addEventListener('click', handleCardButtonClick));
 
+
+// Close modal
 function closeModal() {
     modalOuter.classList.remove('open');
 }
