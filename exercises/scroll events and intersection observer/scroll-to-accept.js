@@ -5,8 +5,9 @@ const terms = document.querySelector('.terms-and-conditions');
 const button = document.querySelector('.accept');
 
 // 5) The callback function called when observed element is viewable (what happens when it's observed)
-function obCallback(payload) {
-    if (payload[0].intersectionRatio === 1) {
+function obCallback(payload) { // payload = an array containing all the IntersectionObserverEntry's
+    console.log(payload);
+    if (payload[0].intersectionRatio === 1) { // payload[0] selects the first object IntersectionObserverEntry in the arary
         button.disabled = false;
         // Stop observing the button
         obCallback.unobserve(terms.lastElementChild);
