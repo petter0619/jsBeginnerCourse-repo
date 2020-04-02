@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playgground file</title>
+    <style type="text/css">
+        #shape {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>   
+
+    <script type="text/javascript">
+        // Using JS to create initial <div id="shape"></div>
+        const shapeDiv = document.createElement('div');
+        shapeDiv.setAttribute('id', 'shape');
+        document.body.insertAdjacentElement('afterbegin', shapeDiv);
+
+        // Measure startTime
+        const startTime = new Date().getTime();
+
+        // Make shape disappear onclick
+        document.querySelector('#shape').addEventListener('click', function(event) {
+            event.currentTarget.setAttribute('hidden', true);
+            const timeUntilClick = (new Date().getTime() - startTime)/1000;
+            const timeToClickText = document.createElement('p');
+            timeToClickText.textContent = `Your time to click: ${timeUntilClick} seconds`;
+            document.body.appendChild(timeToClickText);
+            //document.querySelector('#timeToClick').textContent = `Your time to click: ${timeUntilClick} seconds`;
+        });
+
+        /* Rob Percival method for making shape disappear on click
+        
+        document.getElementById('shape').onclick = function() {
+            document.getElementById('shape').style.display = 'none';
+        }
+        
+        */
+    </script>
+</body>
+</html>
