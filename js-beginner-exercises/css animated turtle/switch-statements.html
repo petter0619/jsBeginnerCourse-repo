@@ -5,13 +5,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title></title>
-  <link rel="stylesheet" href="../base.css">
+  <link rel="stylesheet" href="../../base.css">
 </head>
 
 
 <body>
-  <img width="200" src="./turtle.png" alt="Turt" class="turt">
+  <!-- <img width="200" src="./walkingTurtle.gif" alt="Walking Turtle" class="walkingTurtle"> -->
 
+  <img width="200" src="./turtle.png" alt="Turtle" class="turtle">
+
+
+
+  <script>
+    const turtle = document.querySelector('img.turtle');
+    let x = 0;
+    let y = 0;
+
+    function handleKeyDown(event) {
+      // If it's not an arrow key, don't do anything
+      if(!event.key.includes('Arrow')) { return; }
+
+      // If it's an arrow key, change X and Y variables to move turtle
+      switch (event.key) {
+        case 'ArrowUp':
+          y = y - 1;
+          break;
+        case 'ArrowDown':
+          y = y + 1;
+          break;
+        case 'ArrowLeft':
+          x = x - 1;
+          break;
+        case 'ArrowRight':
+          x = x + 1;
+          break;
+        default:
+          console.log('That is not a valid move!');
+          break;
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+  </script>
 </body>
 
 </html>
