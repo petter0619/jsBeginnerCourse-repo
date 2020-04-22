@@ -1,32 +1,30 @@
-var start = new Date().getTime();
+const shape = document.querySelector('#shape');
+let start = new Date().getTime();
 
 // Random color selector from StackOverflow
 function getRandomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
+    const letters = '0123456789ABCDEF'.split('');
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
 }
 
-function makeShapeAppear () {
-    // Make shape appearence random
-    var top = Math.random() * 400;
-    var left = Math.random() * 400;
-    var width = (Math.random() * 200) + 100;
-
-    if( Math.random() > 0.5) {
-        document.getElementById("shape").style.borderRadius = "50%";
-    } else {
-        document.getElementById("shape").style.borderRadius = "0";
-    }
-    document.getElementById("shape").style.backgroundColor = getRandomColor();
-    document.getElementById("shape").style.width = width + "px";
-    document.getElementById("shape").style.height = width + "px";
-    document.getElementById("shape").style.top = top + "px";
-    document.getElementById("shape").style.left = left + "px";
-    document.getElementById("shape").style.display = "block";
+function makeShapeAppear() {
+    // Make shape appearance random
+    const top = Math.random() * 400;
+    const left = Math.random() * 400;
+    const width = (Math.random() * 200) + 100;
+    shape.setAttribute('style', `
+        background-color: ${getRandomColor()};
+        width: ${width}px;
+        height: ${width}px;
+        top: ${top}px;
+        left: ${left}px;
+        display: block;
+        border-radius: ${ Math.random() > 0.5 ? '50%' : '0' };
+    `);
     // Reset start time to 0
     start = new Date().getTime();
 }
@@ -36,10 +34,21 @@ function appearAfterDelay() {
 }
 appearAfterDelay();
 
-document.getElementById("shape").onclick = function() {
-    document.getElementById("shape").style.display = "none";
-    var end = new Date().getTime();
-    var timeTaken = (end - start) / 1000;
-    document.getElementById('timeTaken').innerHTML = timeTaken + "s";
+// When shape is clicked, replace current shape with a new one
+shape.addEventListener('click', function(event) {
+    event.currentTarget.setAttribute('style', 'display: none;');
+    const end = new Date().getTime();
+    const timeTaken = (end - start) / 1000;
+    document.querySelector('#timeTaken').innerHTML = `${timeTaken} seconds`;
     appearAfterDelay();
-}
+});
+
+// ------------------ List of changes made to optimize code ------------------ 
+
+// 1) Change scope of variables from "var" (global) to "let"/"const" (local/block)
+// 2) Made a "shape" variable to replace all instances of document.getElementById('shape')
+// 3) Changed all instances of double quotes; "", to single quotes; ''. (style pref)
+// 4) Changed .onclick = function() {} to addEventListener
+// 5) Changed from using .style as a setter, to instead use .setAttribute() + interpelation with backticks
+// 6) Used event.currentTarget instead of "shape" variable in addEventListener callback
+// 7) Changed getElementById to querySelector
