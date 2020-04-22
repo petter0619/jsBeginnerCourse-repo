@@ -14,7 +14,7 @@ function getRandomColor() {
 function makeShapeAppear() {
     // Make shape appearance random
     const top = Math.random() * 400;
-    const left = Math.random() * 400;
+    const left = (Math.random() * 400) + (document.body.offsetWidth > 720 ? Math.floor(document.body.offsetWidth / 3) : 0);
     const width = (Math.random() * 200) + 100;
     shape.setAttribute('style', `
         background-color: ${getRandomColor()};
