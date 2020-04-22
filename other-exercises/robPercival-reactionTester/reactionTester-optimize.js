@@ -1,5 +1,5 @@
 const shape = document.querySelector('#shape');
-let start = new Date().getTime();
+let startTime = new Date().getTime();
 
 // Random color selector from StackOverflow
 function getRandomColor() {
@@ -26,7 +26,7 @@ function makeShapeAppear() {
         border-radius: ${ Math.random() > 0.5 ? '50%' : '0' };
     `);
     // Reset start time to 0
-    start = new Date().getTime();
+    startTime = new Date().getTime();
 }
 
 function appearAfterDelay() {
@@ -37,8 +37,7 @@ appearAfterDelay();
 // When shape is clicked, replace current shape with a new one
 shape.addEventListener('click', function(event) {
     event.currentTarget.setAttribute('style', 'display: none;');
-    const end = new Date().getTime();
-    const timeTaken = (end - start) / 1000;
+    const timeTaken = (new Date().getTime() - startTime) / 1000;
     document.querySelector('#timeTaken').innerHTML = `${timeTaken} seconds`;
     appearAfterDelay();
 });
