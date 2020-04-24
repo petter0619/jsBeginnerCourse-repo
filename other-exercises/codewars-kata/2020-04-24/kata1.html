@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codewars Kata - 2020-04-24</title>
+</head>
+<body>
+    <h1>Instructions</h1>
+    <p>
+        In this kata you will create a function that takes a list of 
+        non-negative integers and strings and returns a new list 
+        with the strings filtered out.
+    </p>
+    <p>
+        Examples: 
+    </p>
+    <ul>
+        <li>filter_list([1,2,'a','b']) == [1,2]</li>
+        <li>filter_list([1,'a','b',0,15]) == [1,0,15]</li>
+        <li>filter_list([1,2,'aasf','1','123',123]) == [1,2,123]</li>
+    </ul>
+
+    <script>
+        const list1 = [1,2,'a','b'];
+        const list2 = [1,'a','b',0,15];
+        const list3 = [1,2,'aasf','1','123',123];
+        
+        function filter_list(l) {
+            // Return a new array with the strings filtered out
+            return l.filter(item => typeof(item) === 'number');
+        }
+
+        const list1_numbers = filter_list(list1);
+        const list2_numbers = filter_list(list2);
+        const list3_numbers = filter_list(list3);
+
+        console.log(list1_numbers);
+        console.log(list2_numbers);
+        console.log(list3_numbers);
+
+        // Clever solution - Using the Number.isInteger() static method:
+        function filter_list2(array) {
+            return array.filter(arrayItem => Number.isInteger(arrayItem));
+        }
+
+    </script>
+</body>
+</html>
