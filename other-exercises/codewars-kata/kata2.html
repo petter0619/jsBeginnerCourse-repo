@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codewars Kata 2 - 2020-04-24</title>
+</head>
+<body>
+    <h1>Instructions</h1>
+    <p>
+        An isogram is a word that has no repeating letters, consecutive or non-consecutive. 
+        Implement a function that determines whether a string that contains only letters is 
+        an isogram. Assume the empty string is an isogram. Ignore letter case.
+    </p>
+    <p>
+        Examples: 
+    </p>
+    <ul>
+        <li>isIsogram("Dermatoglyphics") == true</li>
+        <li>isIsogram("aba") == false</li>
+        <li>isIsogram("moOse") == false // -- ignore letter case</li>
+    </ul>
+    <script>
+        const string1 = 'Dermatoglyphics';
+        const string2 = 'aba';
+        const string3 = 'moOse';
+
+        // --------------- Original Solution ------------------
+
+        // Wes instanceCounter function
+        function instanceCounter(tally, arrayItem) {
+            tally[arrayItem] = (tally[arrayItem] || 0) + 1;
+            return tally;
+        }
+
+        function isIsogram(string) {
+            // Turn string into array + lowerCase all letters
+            const stringArray = Array.from(string.toLowerCase());
+            // Tally letters in array with.reduce()
+            const reduceObject = stringArray.reduce(instanceCounter, {});
+            // Use .some() to figure out if any are above 1
+            return !Object.values(reduceObject).some( arrayItem => arrayItem > 1);
+        }
+
+        // --------------- Shortened Code ------------------
+
+        function isIsogram2(string) {
+            // IF empty string return true
+            if(!string.length) {return true}
+            // String --> lowercase --> Array --> letterTally object
+            const reduceObject = Array.from(string.toLowerCase())
+                .reduce((tally, arrayItem) => {
+                    tally[arrayItem] = (tally[arrayItem] || 0) + 1;
+                    return tally;
+                },
+            {});
+            // letterTally object --> Array --> isIsogram
+            return !Object.values(reduceObject)
+                .some( arrayItem => arrayItem > 1);
+        }
+
+        console.log(isIsogram2(''));
+        console.log(isIsogram2(string1));
+        console.log(isIsogram2(string2));
+        console.log(isIsogram2(string3));
+
+        // --------------- Best Solutions ------------------
+
+        function isIsogram3(str){ 
+            return !/(\w).*\1/i.test(str);
+        }
+
+        function isIsogram4(str){
+            return new Set(str.toUpperCase()).size == str.length;
+        }
+
+        function isIsogram5(str){
+            var i, j;
+            str = str.toLowerCase();
+            for(i = 0; i < str.length; ++i)
+                for(j = i + 1; j < str.length; ++j)
+                if(str[i] === str[j])
+                    return false;
+            return true;
+        }
+        
+    </script>
+</body>
+</html>
