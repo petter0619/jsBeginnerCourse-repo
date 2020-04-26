@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codewars Kata 1 - 2020-04-26</title>
+</head>
+<body>
+    <h1>Instructions</h1>
+    <p>
+        Polycarpus works as a DJ in the best Berland nightclub, and he 
+        often uses dubstep music in his performance. Recently, he has 
+        decided to take a couple of old songs and make dubstep remixes 
+        from them.
+    </p>
+    <p>
+        Let's assume that a song consists of some number of words (that 
+        don't contain WUB). To make the dubstep remix of this song, 
+        Polycarpus inserts a certain number of words "WUB" before the 
+        first word of the song (the number may be zero), after the last 
+        word (the number may be zero), and between words (at least one 
+        between any pair of neighbouring words), and then the boy glues 
+        together all the words, including "WUB", in one string and plays 
+        the song at the club.
+    </p>
+    <p>
+        For example, a song with words "I AM X" can transform into a 
+        dubstep remix as "WUBWUBIWUBAMWUBWUBX" and cannot transform 
+        into "WUBWUBIAMWUBX".
+    </p>
+    <p>
+        Recently, Jonny has heard Polycarpus's new dubstep track, but 
+        since he isn't into modern music, he decided to find out what 
+        was the initial song that Polycarpus remixed. Help Jonny restore 
+        the original song.
+    </p>
+    <h4>Input</h4>
+    <p>
+        The input consists of a single non-empty string, consisting 
+        only of uppercase English letters, the string's length doesn't 
+        exceed 200 characters
+    </p>
+    <h4>Output</h4>
+    <p>
+        Return the words of the initial song that Polycarpus used to 
+        make a dubsteb remix. Separate the words with a space.
+    </p>
+    <h4>Example:</h4>
+    <ul>
+        <li>Input: "WUBWEWUBAREWUBWUBTHEWUBCHAMPIONSWUBMYWUBFRIENDWUB"</li>
+        <li>Output: "WE ARE THE CHAMPIONS MY FRIEND"</li>
+    </ul>
+
+    <!-- Javascript -->
+    <script>
+        const wubString1 = 'WUBWEWUBAREWUBWUBTHEWUBCHAMPIONSWUBMYWUBFRIENDWUB';
+        const wubString2 = 'AWUBBWUBC';
+        const wubString3 = 'AWUBWUBWUBBWUBWUBWUBC';
+        const wubString4 = 'WUBAWUBBWUBCWUB';
+
+        function songDecoder(song) {
+            return song
+                .replace(/WUB/gi, ' ')
+                .replace(/\s{2,}/gi, ' ')
+                .replace(/^\s|\s$/gi,'');
+        }
+
+        console.log(songDecoder(wubString1));
+        console.log(songDecoder(wubString2));
+        console.log(songDecoder(wubString3));
+        console.log(songDecoder(wubString4));
+
+        // Best Solutions
+        function songDecoder2(song){
+            return song.replace(/(WUB)+/g," ").trim(); // .trim() removes whitespace from both ends of a string
+        }
+
+    </script>
+</body>
+</html>
