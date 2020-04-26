@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codewars Kata 6 - 2020-04-26 - Create a Phone Number</title>
+    <link rel="stylesheet" href="../../../base.css">
+</head>
+<body>
+    <h1>Instructions</h1>
+    <p>
+        Write a function that accepts an array of 10 integers 
+        (between 0 and 9), that returns a string of those numbers 
+        in the form of a phone number.
+    </p>
+    <h4>Examples</h4>
+    <ul>
+        <li>
+            createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) 
+            // => returns "(123) 456-7890"
+        </li>
+    </ul>
+    <!-- Javascript -->
+    <script>
+        const array1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
+        function createPhoneNumber(number) {
+            return `(${number[0]}${number[1]}${number[2]}) ${number[3]}${number[4]}${number[5]}-${number[6]}${number[7]}${number[8]}${number[9]}`;
+        }
+
+        function createPhoneNumber2(numbers) {
+            const phone = numbers.toString().replace(/,/g,'');
+            return `(${phone.slice(0,3)}) ${phone.slice(3,6)}-${phone.slice(6,10)}`;
+        }
+
+        console.log(createPhoneNumber(array1));
+        console.log(createPhoneNumber2(array1));
+
+
+        // Best Solutions
+
+        function createPhoneNumber3(numbers){
+            return numbers.reduce((p,c) => p.replace('x',c), "(xxx) xxx-xxxx");
+        }
+        
+        function createPhoneNumber4(numbers){
+            numbers = numbers.join('');
+            return '(' + numbers.substring(0, 3) + ') ' 
+                + numbers.substring(3, 6) 
+                + '-' 
+                + numbers.substring(6);
+        }
+
+        function createPhoneNumber5(numbers){
+            var format = "(xxx) xxx-xxxx";
+            
+            for(var i = 0; i < numbers.length; i++) {
+                    format = format.replace('x', numbers[i]);
+                }
+            return format;
+        }
+
+    </script>
+</body>
+</html>
