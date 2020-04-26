@@ -40,7 +40,9 @@
         // Best Solutions
 
         function createPhoneNumber3(numbers){
-            return numbers.reduce((p,c) => p.replace('x',c), "(xxx) xxx-xxxx");
+            return numbers.reduce((p,c) => p.replace('x',c), "(xxx) xxx-xxxx"); 
+            //p = accumulator, c = each individual number
+            // Replaces p (acc) with newSubstring; .replce(opt 3rd input), then replaces the x's with the c's (the numbers)
         }
         
         function createPhoneNumber4(numbers){
