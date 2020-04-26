@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codewars Kata 5 - 2020-04-26 - Regex validate PIN code</title>
+    <link rel="stylesheet" href="../../../base.css">
+</head>
+<body>
+    <h1>Instructions</h1>
+    <p>
+        ATM machines allow 4 or 6 digit PIN codes and PIN codes 
+        cannot contain anything but exactly 4 digits or exactly 6 
+        digits. If the function is passed a valid PIN string, 
+        return true, else return false.
+    </p>
+    <h4>Examples</h4>
+    <ul>
+        <li>validatePIN("1234") === true</li>
+        <li>validatePIN("12345") === false</li>
+        <li>validatePIN("a234") === false</li>
+    </ul>
+
+    <!-- Javascript -->
+    <script>
+        const pin1 = '1234';
+        const pin2 = '12345';
+        const pin3 = 'a234';
+        const pin4 = '123456';
+        const pin5 = '1234567';
+
+        function validatePin(pinString) {
+            return pinString.match(/^[0-9]{4}$|^[0-9]{6}$/) ? true : false;
+        }
+
+        console.log(validatePin(pin1)); //true
+        console.log(validatePin(pin2)); //false
+        console.log(validatePin(pin3)); //false
+        console.log(validatePin(pin4)); //true
+        console.log(validatePin(pin5)); //false
+
+        // Best Solutions
+
+        function validatePin2 (pin) {
+            return  (pin.length == 4 || pin.length == 6) && parseInt(pin) == pin
+        }
+
+        function validatePin3(pin) {
+            return /^(\d{4}|\d{6})$/.test(pin) 
+            // The test() method executes a search for a match between a regular expression and a specified string. Returns true or false.
+            // d = Regex for "One digit"
+        }
+
+    </script>
+</body>
+</html>
