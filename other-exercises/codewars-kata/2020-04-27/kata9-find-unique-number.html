@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codewars Kata 9 - 2020-04-27 - Find Unique Number</title>
+    <link rel="stylesheet" href="../../../base.css">
+</head>
+<body>
+    <h1>Instructions</h1>
+    <p>
+        There is an array with some numbers. All numbers are equal except 
+        for one. Try to find it! It’s guaranteed that array contains at least 
+        3 numbers.
+    </p>
+    <p>
+        The tests contain some very huge arrays, so think about performance.
+    </p>
+    <h4>Examples</h4>
+    <ul>
+        <li>findUniq([ 1, 1, 1, 2, 1, 1 ]) === 2</li>
+        <li>findUniq([ 0, 0, 0.55, 0, 0 ]) === 0.55</li>
+    </ul>
+
+    <!-- Javascript -->
+    <script>
+
+        // Solution 1
+
+        const array1 = [ 1, 1, 1, 2, 1, 1 ]; // find 2
+        const array2 = [ 0, 0, 0.55, 0, 0 ]; // find 0.55
+
+        function findUniq(array) {
+            // instanceCounter function
+            function instanceCounter(tally, arrayItem) {
+                tally[arrayItem] = (tally[arrayItem] || 0) + 1;
+                return tally;
+            }
+            // Tally values in array => gives you an object
+            const tallyArray = Object.entries(array.reduce(instanceCounter, {}));
+            // Return key that equals 1
+            const uniqueNumber =
+                tallyArray.find(function(item) {
+                if(item[1] === 1) {
+                    return item[0];
+                }
+            })[0];
+            // Turn key back into a number
+            return uniqueNumber.match(/\./) ? parseFloat(uniqueNumber) : parseInt(uniqueNumber);
+        }
+
+        console.log(findUniq(array1));
+        console.log(findUniq(array2));
+
+    </script>
+</body>
+</html>
