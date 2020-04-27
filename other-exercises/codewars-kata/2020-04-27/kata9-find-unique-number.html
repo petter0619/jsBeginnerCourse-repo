@@ -25,7 +25,7 @@
     <!-- Javascript -->
     <script>
 
-        // Solution 1
+        // ------------------- Solution 1 -------------------
 
         const array1 = [ 1, 1, 1, 2, 1, 1 ]; // find 2
         const array2 = [ 0, 0, 0.55, 0, 0 ]; // find 0.55
@@ -51,6 +51,43 @@
 
         console.log(findUniq(array1));
         console.log(findUniq(array2));
+
+        // !!! Solution 1 failed bcs it returned "1e-7" as 1 and -Infinity as NaN !!!
+
+        // ------------------- Solution 2 -------------------
+
+        const array1 = [ 1, 1, 1, 2, 1, 1 ]; // find 2
+        const array2 = [ 0, 0, 0.55, 0, 0 ]; // find 0.55
+
+        function findUniq2(array) {
+            // instanceCounter function
+            function instanceCounter(tally, arrayItem) {
+                tally[arrayItem] = (tally[arrayItem] || 0) + 1;
+                return tally;
+            }
+            // Tally values in array => gives you an object
+            const tallyArray = Object.entries(array.reduce(instanceCounter, {}));
+            // Return key that equals 1
+            const uniqueNumber =
+                tallyArray.find(function(item) {
+                if(item[1] === 1) {
+                    return item[0];
+                }
+            })[0];
+            // Turn key back into a number
+            return Number(uniqueNumber);    // Changed method for converting string to number
+        }
+
+        console.log(findUniq(array1));
+        console.log(findUniq(array2));
+        
+
+    // Best Solution
+
+    function findUniq3(array) {
+        array.sort((a,b)=>a-b);
+        return array[0]==array[1]?array.pop():array[0];
+    }
 
     </script>
 </body>
