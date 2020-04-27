@@ -93,12 +93,12 @@
 
         // Best Solutions
 
-        function deleteNth2(arr,x) {
-            var cache = {};
-            return arr.filter(function(n) {
-                cache[n] = (cache[n]||0) + 1;
-                return cache[n] <= x;
-            });
+        function deleteNth2(arr,x){
+            var obj = {}
+            return arr.filter(function(number){
+                obj[number] = obj[number] ? obj[number] + 1 : 1
+                return obj[number] <= x
+            })
         }
     
     </script>
