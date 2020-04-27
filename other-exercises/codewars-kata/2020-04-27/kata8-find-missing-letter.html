@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codewars Kata 8 - 2020-04-27 - Find the Missing Letter</title>
+    <link rel="stylesheet" href="../../../base.css">
+</head>
+<body>
+    <h1>Instructions</h1>
+    <p>
+        Write a method that takes an array of consecutive (increasing) letters as 
+        input and that returns the missing letter in the array.
+    </p>
+    <p>
+        You will always get an valid array. And it will be always exactly one letter 
+        be missing. The length of the array will always be at least 2. The array will 
+        always contain letters in only one case. (Use the English alphabet with 26 letters!)
+    </p>
+    <h4>Examples</h4>
+    <ul>
+        <li>["a","b","c","d","f"] -> "e"</li>
+        <li>["O","Q","R","S"] -> "P"</li>
+    </ul>
+    <!-- Javascript -->
+    <script>
+        // MY SOLUTION
+
+        const array1 = ["a","b","c","d","f"]; // e missing
+        const array2 = ["O","Q","R","S"]; // P missing
+
+        function findMissingLetter(array) {
+            const alphabet = Array.from('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+            // .findIndex of 1) 1st letter in input array, 2) last letter in input array
+            const firstLetter = alphabet.findIndex(letter => letter === array[0]);
+            const lastLetter = alphabet.findIndex(letter => letter === array[array.length - 1]);
+            // create a copy of alphabet array that matches input array (but incl. misssing letter)
+            const arrayCopy = alphabet.slice(firstLetter, lastLetter + 1);
+
+            // Find missing letter index
+            const missingLetterIndex = array.findIndex(function(item, index) {
+                if(array[index] === arrayCopy[index]) {
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+            // Return missing letter
+            return arrayCopy[missingLetterIndex];
+        }
+
+        console.log(findMissingLetter(array1));
+        console.log(findMissingLetter(array2));
+
+        // BEST SOLUTIONS
+
+
+    </script>
+</body>
+</html>
