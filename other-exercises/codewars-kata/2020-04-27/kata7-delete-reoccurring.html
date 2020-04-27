@@ -94,9 +94,18 @@
         // Best Solutions
 
         function deleteNth2(arr,x){
-            var obj = {}
-            return arr.filter(function(number){
+            // Create empty object
+            let obj = {}
+            /* 
+                .filter() the number array: .filter() returns an array by looping over 
+                each item in an array and applying a CB function to it which will return 
+                true/false if item matches CB func condition
+            */
+            return arr.filter(function(number){ // number = each item in the array
+                // Create obj key for "number" if doesn't exist and set value to 1
+                // IF key exists, add 1 to value
                 obj[number] = obj[number] ? obj[number] + 1 : 1
+                // return (add to filter array) that object number IF it's value is less or greater than X (allowed occurrences)
                 return obj[number] <= x
             })
         }
