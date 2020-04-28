@@ -89,16 +89,18 @@ function Gallery(gallery) {
     showImage(event.currentTarget);
   })); // Reminder: To set an event on every item in an array, you need to loop over them to add the event to every single one
 
-// Some elements naturally register a click when they are tabbed > enter, but not Images, so we need to add it
-images.forEach(image => {
-  image.addEventListener('keyup', e => {
-    if(e.key === 'Enter') {
-      showImage(e.currentTarget);
-    }
-  })
-});
+  // Some elements naturally register a click when they are tabbed > enter, but not Images, so we need to add it
+  images.forEach(image => {
+    image.addEventListener('keyup', e => {
+      if(e.key === 'Enter') {
+        showImage(e.currentTarget);
+      }
+    })
+  });
 
-modal.addEventListener('click', handleClickOutside);
+  modal.addEventListener('click', handleClickOutside);
+// End of function Gallery
+}
 
 const gallery1 = Gallery(document.querySelector('.gallery1')); // <------ Creates 2 copies of above function (+ all inner funcs)
 const gallery2 = Gallery(document.querySelector('.gallery2'));
