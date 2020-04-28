@@ -22,16 +22,40 @@
 
     <!-- Javascript -->
     <script>
+
+        // My Solution
+
         const string1 = 'abc';
         const string2 = 'abcdef';
 
         function solution(string) {
-            console.log(string);
+            string.length % 2 ? string = string + '_' : null;
+            let newArray = [];
+            for(let i = 0; i <= string.length-1; i += 2) {
+                newArray.push(string.slice(i,i + 2));
+            }
+            return newArray;
         }
 
-        solution(string1);
-        solution(string2);
+        console.log(solution(string1));
+        console.log(solution(string2));
 
+        // Best Solution
+
+        function solution2(str) {
+            return (str.length % 2 ? str + '_' : str).match(/../g);
+        }
+        /* 
+            The match() method essentially returns an array, splitting up the 
+            string into items according to the RegEx input. 
+
+            So the above match() essentially says: "Create an array where each item will be
+            2 characters from the string"
+
+            From MDN (on the g at the end of the RegEx)
+            ---> If the g flag is used, all results matching the complete regular expression will be returned, but capturing groups will not.
+            ---> if the g flag is not used, only the first complete match and its related capturing groups are returned. In this case, the returned item will have additional properties as described below.
+        */
     </script>
 </body>
 </html>
