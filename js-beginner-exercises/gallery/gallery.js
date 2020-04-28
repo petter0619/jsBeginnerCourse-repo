@@ -1,7 +1,7 @@
 function Gallery(gallery) {
   // IF no gallery passed in, don't do anything
   if(!gallery) {
-    throw new Error('No Gallery Found!'); // <-------------------- Shows error in Console
+    throw new Error('No Gallery Found!');
   }
 
   // Select elements needed
@@ -91,16 +91,14 @@ function Gallery(gallery) {
 
 // Some elements naturally register a click when they are tabbed > enter, but not Images, so we need to add it
 images.forEach(image => {
-  image.addEventListener('keyup', e => { // <------------ cool that you can listen to keyups on elements
+  image.addEventListener('keyup', e => {
     if(e.key === 'Enter') {
       showImage(e.currentTarget);
     }
   })
-})
+});
 
-  modal.addEventListener('click', handleClickOutside);
-  
-}
+modal.addEventListener('click', handleClickOutside);
 
 const gallery1 = Gallery(document.querySelector('.gallery1')); // <------ Creates 2 copies of above function (+ all inner funcs)
 const gallery2 = Gallery(document.querySelector('.gallery2'));
