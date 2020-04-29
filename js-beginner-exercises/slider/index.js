@@ -1,9 +1,5 @@
-// Slider works by changing the classes of the slides, which alters the translateX() property (which keeps the slides off-screen)
-// Slide current = translateX(0); inside slide box, prev = translateX(-100%); just to the left of slide box (so animation makes it slide in), next = translateX(+100%); just to the right of slide box. All are
-// The biggest challenge is simply keeping track of which slide is the current/prev/next one at any given moment
-
-function Slider (slider) {                  // <-------------------- sliderEl name convention (to show it is an element)
-  if ( !(slider instanceof Element) ) {     // <-------------------- Check is something is in fact an ELEMENT (otherwise any value passed in will pass the checker)
+function Slider (slider) { // <----- Coul also be called "sliderEl" (to show it is an element)
+  if ( !(slider instanceof Element) ) {   
     throw new Error('No slider passed in!');
   }
 
@@ -14,7 +10,7 @@ function Slider (slider) {                  // <-------------------- sliderEl na
   let currentSlide;
   let nextSlide;
   // Select needed elements
-  const slides = slider.querySelector('.slides'); // .slides = the wrapper Div containing all the slides (will use firstChildElement & previousSiblingElement, etc to select the actual slides)
+  const slides = slider.querySelector('.slides');
   const nextButton = slider.querySelector('.goToNext');
   const prevButton = slider.querySelector('.goToPrev');
 
@@ -22,7 +18,7 @@ function Slider (slider) {                  // <-------------------- sliderEl na
 
   // startSlider() function which populates the slide variables on page load
   function startSlider() {
-    currentSlide = slider.querySelector('.current') || slides.firstElementChild; // <--------------- NOTE: conditional abuse
+    currentSlide = slider.querySelector('.current') || slides.firstElementChild; // <-- NOTE: conditional abuse
     prevSlide = currentSlide.previousElementSibling || slides.lastElementChild;
     nextSlide = currentSlide.nextElementSibling || slides.firstElementChild;
   }
@@ -55,10 +51,9 @@ function Slider (slider) {                  // <-------------------- sliderEl na
         prevSlide.previousElementSibling || slides.lastElementChild, 
         prevSlide, 
         currentSlide,
-      ];
-      // -----> Would this work if you ONLY reset current? Maybe... if you re-ran startSlider()
+      ]; 
     } else {
-      [prevSlide, currentSlide, nextSlide] = [ // <------------------- 29:04 (arrow image)
+      [prevSlide, currentSlide, nextSlide] = [
         currentSlide, 
         nextSlide, 
         nextSlide.nextElementSibling || slides.firstElementChild,
@@ -69,10 +64,12 @@ function Slider (slider) {                  // <-------------------- sliderEl na
   
   // ---------------------- Event Listeners ---------------------- 
   nextButton.addEventListener('click', move);
-  prevButton.addEventListener('click', () => move('back')); // The () => needed in order pass custom argument 'back' = param 'direction' (within the event listener); OR you can use co pall or apply
+  prevButton.addEventListener('click', () => move('back')); 
 }
 
 const slider1 = Slider(document.querySelector('.slider'));
 const slider2 = Slider(document.querySelector('.dog-slider'));
 
-// Challenge to further develop slider: Add functionality for Arrow Keys on button (if needed) + when someone is focused/tabbed in to the slider DIV itself
+// Challenge to further develop slider: Add functionality for 
+// Arrow Keys on button (if needed) + when someone is focused/tabbed 
+// in to the slider DIV itself
