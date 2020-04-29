@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codewars Kata 12 - 2020-04-29 - Duplicate Encoder</title>
+    <link rel="stylesheet" href="../../../base.css">
+</head>
+<body>
+    <h1>Instructions</h1>
+    <p>
+        The goal of this exercise is to convert a string to a new string where 
+        each character in the new string is "(" if that character appears only 
+        once in the original string, or ")" if that character appears more than 
+        once in the original string. Ignore capitalization when determining if a 
+        character is a duplicate.
+    </p>
+    <p>
+        Assertion messages may be unclear about what they display in some languages. 
+        If you read "...It Should encode XXX", the "XXX" is the expected result, 
+        not the input!
+    </p>
+    <h4>Examples</h4>
+    <ul>
+        <li>"din"      =>  "((("</li>
+        <li>"recede"   =>  "()()()"</li>
+        <li>"Success"  =>  ")())())"</li>
+        <li>"(( @"     =>  "))((" </li>
+    </ul>
+    <!-- Javascript -->
+    <script>
+        // My Solution
+
+        const string1 = 'din';
+        const string2 = 'recede';
+        const string3 = 'Success';
+        const string4 = '(( @';
+
+        function duplicateEncode(string) {
+            const stringLowercase = string.toLowerCase();
+            // tally number of each character in string with .reduce()
+            function instanceCounter(tally, arrayItem) {
+                tally[arrayItem] = (tally[arrayItem] || 0) + 1;
+                return tally;
+            }
+            const tallyObject = stringLowercase.split('').reduce(instanceCounter, {});
+            // Loop each character, find in tallyObject, replace
+            let newString = [];
+            for(let i = 0; i < string.length; i++) {
+                // IF string character > 1 occurrence replace with ), IF 1 occurrence (
+                tallyObject[stringLowercase[i]] > 1 ? newString.push(')') : newString.push('(');
+            }
+            return newString.join('');
+        }
+
+        // Instead of FOR loop could turned string into an Array and used .map() on it
+
+        console.log(duplicateEncode(string1));
+        console.log(duplicateEncode(string2));
+        console.log(duplicateEncode(string3));
+        console.log(duplicateEncode(string4));
+
+        // Best Solution(s)
+
+        function duplicateEncode2(word){
+            return word
+                .toLowerCase()
+                .split('')
+                .map( function (item, index, array) {
+                    // IF firstIndex of char = lastIndex of char then it's not a duplicate
+                    return array.indexOf(item) == array.lastIndexOf(item) ? '(' : ')'
+                })
+                .join('');
+        }
+
+        function duplicateEncode3(word) {
+            word = word.toLowerCase();
+            return word.replace(/./g, m => word.indexOf(m) == word.lastIndexOf(m) ? '(' : ')');
+        }
+
+    </script>
+</body>
+</html>
