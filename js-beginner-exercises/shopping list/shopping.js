@@ -39,9 +39,9 @@ function displayItems() {
     const html = items.map(item => { // .map() is useful here bcs you can loop over each item, return an HTML <li> item, and then .join() them for a full HTML block
         // class="shopping-item" = for CSS styling || &times; = gives you an X button
         return `<li class="shopping-item"> 
-            <input type="checkbox">
+            <input value="${item.id}" type="checkbox" ${item.complete ? 'checked' : ''}>
             <span class="itemName">${item.name}</span>
-            <button aria-label="Remove ${item.name}">&times;</button>
+            <button aria-label="Remove ${item.name}" value="${item.id}">&times;</button>
         </li>`;
     }).join('');
     list.innerHTML = html;
@@ -64,12 +64,35 @@ function restoreFromLocalStorage() {
     }
 }
 
-// Event Listeners
-shoppingForm.addEventListener('submit', handleSubmit)
-list.addEventListener('itemsUpdated', displayItems)
-list.addEventListener('itemsUpdated', mirrorToLocalStorage)
+function deleteItem(id) {
+    // Update items array without item with argument ID
+    items = items.filter(item => item.id !== id);
+    list.dispatchEvent(new CustomEvent('itemsUpdated')); // will re-render list + override/update Local Storage
+}
 
-restoreFromLocalStorage()
+function markAsComplete(id) {
+    const itemRef = items.find(item => item.id === id);
+    itemRef.complete = !itemRef.complete;
+    list.dispatchEvent(new CustomEvent('itemsUpdated')); // will re-render list + override/update Local Storage
+}
+
+// Event Listeners
+shoppingForm.addEventListener('submit', handleSubmit);
+list.addEventListener('itemsUpdated', displayItems);
+list.addEventListener('itemsUpdated', mirrorToLocalStorage);
+// Event delegation: we listen for the click on the <ul> but delegate the event to the button (IF statement); if that is what was clicked
+list.addEventListener('click', function (e) {
+    const id = parseInt(e.target.value);
+    // Listening for event on the list, but don't to anything unless click was on a button (in the list)
+    if(e.target.matches('button')) {
+        deleteItem(id); // ID is placed on button via interpelation
+    }
+    if(e.target.matches('input[type="checkbox"]')) {
+        markAsComplete(id);
+    }
+});
+
+restoreFromLocalStorage();
 
 // ------------------------------------------------------------------------
 
@@ -84,7 +107,9 @@ restoreFromLocalStorage()
     - 'State' explanation 6:40
     - Why use custom events (why not just call displayItems() in handleSubmit?): 22:20-28:41
     - LocalStorage 28:50
-    - Event delegation 39:00
+    - Event delegation 41:30
+    - rerendering entire list; advantage of framework - 45:45
+    - Some info 57:30
 
     - Stop autocomplete="off"/autocapitalise="off" on input form fields 5:30
     - event.preventDefault(); on forms submitEvent (reminder) 8:30 (stops info from being logged in URL parameters)
