@@ -1,5 +1,5 @@
 /* Topics:
-        - Custom Events
+        - Custom Events (video 22:20-28:41)
         - Event Delegation (listening for things that happen in future)
         - Local Storage (w. JSON)
         - DOM Events
@@ -60,7 +60,7 @@ function restoreFromLocalStorage() {
         items = lsItems;
         // ALT: items.forEach(item => items.push(item));
         // ALT: items.push(...lsItems);
-        list.dispatchEvent(new CustomEvent('itemsUpdated'));
+        list.dispatchEvent(new CustomEvent('itemsUpdated')); 
     }
 }
 
@@ -78,7 +78,7 @@ function markAsComplete(id) {
 
 // Event Listeners
 shoppingForm.addEventListener('submit', handleSubmit);
-list.addEventListener('itemsUpdated', displayItems);
+list.addEventListener('itemsUpdated', displayItems); 
 list.addEventListener('itemsUpdated', mirrorToLocalStorage);
 // Event delegation: we listen for the click on the <ul> but delegate the event to the button (IF statement); if that is what was clicked
 list.addEventListener('click', function (e) {
@@ -101,18 +101,3 @@ restoreFromLocalStorage();
 // Render out a list of all those items
 
 // ------------------------------------------------------------------------
-/* Video notations:
-
-    - Installing Parcel (+ localhost) 2:00-4:40
-    - 'State' explanation 6:40
-    - Why use custom events (why not just call displayItems() in handleSubmit?): 22:20-28:41
-    - LocalStorage 28:50
-    - Event delegation 41:30
-    - rerendering entire list; advantage of framework - 45:45
-    - Some info 57:30
-
-    - Stop autocomplete="off"/autocapitalise="off" on input form fields 5:30
-    - event.preventDefault(); on forms submitEvent (reminder) 8:30 (stops info from being logged in URL parameters)
-    - Why use 'submit' event Listener 8:40 (bcs otherwise you would have to listen for all possible ways to submit the form; buttonClick, tab>enter, etc + there are ways to submit a form via JS)
-    - NOTE: Every time you have a list of items it is best to give every item a unique id so you can find it later (e.g. to mark as complete or remove it)
-*/
