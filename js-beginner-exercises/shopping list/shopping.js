@@ -18,7 +18,9 @@ function handleSubmit(e) {
     // Prevent formSubmit from changing URL
     e.preventDefault();
     // Grab the value of the input
-    const name = e.currenttarget.item.value; // 10:30 Because the input has a name it is available via the form variable
+    const name = e.currentTarget.item.value; // 10:30 Because the input has a name it is available via the form variable
+    // IF input is empty string, don't submit it
+    if(!name) {return};
     // Store the input value + related info (itemId + isComplete?) in the 'items' array
     const item = {
         name: name,
@@ -29,17 +31,45 @@ function handleSubmit(e) {
     items.push(item);
     // Clear the form
     e.target.reset(); // Other method: e.currentTarget.item.value = ''. NOTE: .target works here bcs when you have a form event it will only ever fire on the form itself; it doesn't bubble
-
+    // Fire off custom event for items being updated 25:15
+    list.dispatchEvent(new CustomEvent('itemsUpdated'));
 }
 
 function displayItems() {
     const html = items.map(item => { // .map() is useful here bcs you can loop over each item, return an HTML <li> item, and then .join() them for a full HTML block
-        return `<li>${item.name}</li>`;
-    }) 
+        // class="shopping-item" = for CSS styling || &times; = gives you an X button
+        return `<li class="shopping-item"> 
+            <input type="checkbox">
+            <span class="itemName">${item.name}</span>
+            <button aria-label="Remove ${item.name}">&times;</button>
+        </li>`;
+    }).join('');
+    list.innerHTML = html;
+}
+
+function mirrorToLocalStorage() {
+    // Mirror all item from list to Local Storage
+    localStorage.setItem('items', JSON.stringify(items));
+}
+
+function restoreFromLocalStorage() {
+    // Pull items from local storage
+    const lsItems = JSON.parse(localStorage.getItem('items'));
+    // Check if there are items in Local Storage (in case this is user first time load)
+    if(lsItems.length) {
+        items = lsItems;
+        // ALT: items.forEach(item => items.push(item));
+        // ALT: items.push(...lsItems);
+        list.dispatchEvent(new CustomEvent('itemsUpdated'));
+    }
 }
 
 // Event Listeners
 shoppingForm.addEventListener('submit', handleSubmit)
+list.addEventListener('itemsUpdated', displayItems)
+list.addEventListener('itemsUpdated', mirrorToLocalStorage)
+
+restoreFromLocalStorage()
 
 // ------------------------------------------------------------------------
 
@@ -52,7 +82,9 @@ shoppingForm.addEventListener('submit', handleSubmit)
 
     - Installing Parcel (+ localhost) 2:00-4:40
     - 'State' explanation 6:40
-    - Why use custom events: 16:35
+    - Why use custom events (why not just call displayItems() in handleSubmit?): 22:20-28:41
+    - LocalStorage 28:50
+    - Event delegation 39:00
 
     - Stop autocomplete="off"/autocapitalise="off" on input form fields 5:30
     - event.preventDefault(); on forms submitEvent (reminder) 8:30 (stops info from being logged in URL parameters)
