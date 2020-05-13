@@ -47,7 +47,7 @@
 
     .close {
       background: none;
-      color: white;
+      color: black;
       border: 0;
     }
 
@@ -58,8 +58,46 @@
       grid-auto-flow: dense;
     }
 
+    /* CSS Grid for Overlaying items --- By making each item a 1col/1row grid, you can overlay things on it */
     .item {
       overflow: hidden;
+      display: grid;
+      grid-template-columns: 1;
+      grid-template-rows: 1;
+    }
+
+    .item img {
+      grid-column: 1/ -1;
+      grid-row: 1/ -1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .item__overlay {
+      background: #ffc60032;
+      grid-column: 1/ -1;
+      grid-row: 1/ -1;
+      position: relative;
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      transition: 0.2s;
+      transform: translateY(100%);
+    }
+    /* ^ We are making each item a 1/1 grid, then overlayin the image on top of it, and then overlaying the overlay on top of that */
+
+    .item__overlay button {
+      background: none;
+      border: 2px solid white;
+      color: white;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 5px;
+    }
+
+    .item:hover .item__overlay {
+      transform: translateY(0);
     }
 
     .item.v2 {
@@ -99,9 +137,11 @@
 
     .overlay.open {
       display: grid;
+      align-items: center;
+      justify-items: center;
     }
 
-    .overlay figure {
+    .overlay-inner {
       background: white;
       width: 700px;
       padding: 20px;
@@ -144,6 +184,29 @@
 
     gallery.innerHTML = html;
 
+    // Handling clicks on overlays
+    function handleClick(event) {
+      const src = event.currentTarget.querySelector('img').src.match(/images\/[0-9]+\.jpg/g).join(''); // Needed to use match() to retrieve the fileName of image
+      overlayImage.src = src;
+      overlay.classList.add('open');
+      overlayClose.addEventListener('click', close);
+      window.addEventListener('keyup', handleKeydown)
+    }
+
+    function handleKeydown(event) {
+      if(event.key === 'Escape') {
+        overlay.classList.remove('open');
+      }
+    }
+
+    function close() {
+      overlay.classList.remove('open');
+      overlayClose.removeEventListener('click', close);
+      window.removeEventListener('keyup', handleKeydown)
+    }
+
+    const items = document.querySelectorAll('.item');
+    items.forEach(item => item.addEventListener('click', handleClick));
   </script>
 </body>
 
