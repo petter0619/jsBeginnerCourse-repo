@@ -14,6 +14,12 @@ function Gallery(gallery) {
   this.nextButton = this.modal.querySelector('.next'); 
   this.prevButton = this.modal.querySelector('.prev');
 
+  // Bind our methods to the instance we need them
+  this.showNextImage = this.showNextImage.bind(this);
+  this.showPrevImage = this.showPrevImage.bind(this);
+  this.handleKeyUp = this.handleKeyUp.bind(this);
+  this.handleClickOutside = this.handleClickOutside.bind(this);
+
   // Event Listeners
   
   this.images.forEach(image => image.addEventListener('click', event => {
@@ -79,11 +85,11 @@ Gallery.prototype.handleKeyUp = function(event) {
 
 // Show next and previous images
 Gallery.prototype.showNextImage = function() {
-  this.showImage(this.currentImage.nextElementSibling || gallery.firstElementChild); 
+  this.showImage(this.currentImage.nextElementSibling || this.gallery.firstElementChild); 
 }
 
 Gallery.prototype.showPrevImage = function() {
-  this.showImage(this.currentImage.previousElementSibling || gallery.lastElementChild); 
+  this.showImage(this.currentImage.previousElementSibling || this.gallery.lastElementChild); 
 }
 
 // Populate modal with image specific info + run openModal()
