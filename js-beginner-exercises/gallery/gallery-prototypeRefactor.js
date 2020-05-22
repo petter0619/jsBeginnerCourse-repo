@@ -6,106 +6,103 @@ function Gallery(gallery) {
     throw new Error('No Gallery Found!');
   }
 
+  this.gallery = gallery;
+
   // Select elements needed
-  const images = Array.from(gallery.querySelectorAll('img')); // gallery.querySelectorAll('img'); = NodeList
-  // <------------ reason for gallery.queryS over documen.queryS is that you want the images for each gallery, not all on page
-  const modal = document.querySelector('.modal');
-  const nextButton = modal.querySelector('.next'); // <------------------ NOTE how you can stick an element inside a variable, then use querySelector on that variable to access stuff in that variable
-  const prevButton = modal.querySelector('.prev');
-  let currentImage;
+  this.images = Array.from(gallery.querySelectorAll('img'));
+  this.modal = document.querySelector('.modal');
+  this.nextButton = this.modal.querySelector('.next'); 
+  this.prevButton = this.modal.querySelector('.prev');
 
-  // Functions for all gallery functionality
-
-  // Open modal
-  function openModal() {
-    console.info('Opening modal....');
-    // Check if the modal is already open; IF yes stop function from running (to prevent CSS animation from repeating)
-    if(modal.matches('.open')) { // element.matches() checks if the element matches a CSS selector
-      console.info('Modal already open');
-      return; 
-    }
-    // Open modal by setting the class "open" on the modal element
-    modal.classList.add('open');
-
-    // Add event listeners to listen for closeModal() click and keyboard triggers
-    window.addEventListener('keyup', handleKeyUp);
-    nextButton.addEventListener('click', showNextImage);
-    prevButton.addEventListener('click', showPrevImage);
-  }
-
-  // Close Modal
-  function closeModal() {
-    modal.classList.remove('open');
-
-    // Remove event listeners for closeModal() click and keyboard triggers
-    window.removeEventListener('keyup', handleKeyUp);
-    nextButton.removeEventListener('click', showNextImage);
-    prevButton.removeEventListener('click', showPrevImage);
-  }
-
-  // Handling clikc outside modal
-  function handleClickOutside(event) {
-    if(event.target === event.currentTarget) { // .target = thing they actually clicked, .currentTarget = thing you're listening for click on
-      closeModal();
-    }
-  }
-
-  // Handling keyboard events
-  function handleKeyUp(event) {
-    if(event.key === 'Escape') return closeModal(); // <--------------------------- Note how you don't need block {} if all on one line
-    if(event.key === 'ArrowRight') return showNextImage();
-    if(event.key === 'ArrowLeft') return showPrevImage(); // <------ Tyiping return in front doesn't return values BUT by adding it the following IF statements won't run unnecesarily
-  }
-
-  // Show next and previous images
-  function showNextImage() {
-    showImage(currentImage.nextElementSibling || gallery.firstElementChild); // <---------- REMINDER: Selecting elements 
-  }
-
-  function showPrevImage() {
-    showImage(currentImage.previousElementSibling || gallery.lastElementChild); // <---------- REMINDER: Selecting elements 
-  }
-
-  // Populate modal with image specific info + run openModal()
-  function showImage(el) { // Takes in the img element tag that was clicked
-    if(!el) {
-      console.log('No image to show');
-      return;
-    }
-    // ----------- Update modal with clicked img inf ---------------
-    modal.querySelector('img').src = el.src;          // Update the img src of the modal (aka what image modal shows)
-    modal.querySelector('h2').textContent = el.title; // Update modal h2 with img title
-    modal.querySelector('p').textContent = el.dataset.description; // Update modal p with img data-description (reminder: dataset.customTag)
-
-    // Set currentImage (for use with next & prev buttons)
-    currentImage = el;
-
-    // Open Modal
-    openModal();
-  }
-
-  // Event Listeners   <------------- (vid 24:25) NOTE how some are moved INTO funcions, and are only listened for AFTER something has happened (then removed)
+  // Event Listeners
   
-  images.forEach(image => image.addEventListener('click', event => {
+  this.images.forEach(image => image.addEventListener('click', event => {
     // Pass the image tag into the showImage() function
-    showImage(event.currentTarget);
-  })); // Reminder: To set an event on every item in an array, you need to loop over them to add the event to every single one
+    this.showImage(event.currentTarget);
+  }));
 
   // Some elements naturally register a click when they are tabbed > enter, but not Images, so we need to add it
-  images.forEach(image => {
+  this.images.forEach(image => {
     image.addEventListener('keyup', e => {
       if(e.key === 'Enter') {
-        showImage(e.currentTarget);
+        this.showImage(e.currentTarget);
       }
     })
   });
 
-  modal.addEventListener('click', handleClickOutside);
+  this.modal.addEventListener('click', this.handleClickOutside);
 // End of function Gallery
 }
 
-const gallery1 = Gallery(document.querySelector('.gallery1')); // <------ Creates 2 copies of above function (+ all inner funcs)
-const gallery2 = Gallery(document.querySelector('.gallery2'));
+// Functions for all gallery functionality
 
-// <------------ tabindex = 0 (see HTML) allows "keyboard users" tab through images
-// <------------ (see HTML) NOTE how the next & prev panels are <button>'s in the HTML (so they can be tab selected...)
+// Open modal
+Gallery.prototype.openModal = function() {
+  console.info('Opening modal....');
+  // Check if the modal is already open; IF yes stop function from running (to prevent CSS animation from repeating)
+  if(this.modal.matches('.open')) { 
+    console.info('Modal already open');
+    return; 
+  }
+  // Open modal by setting the class "open" on the modal element
+  this.modal.classList.add('open');
+
+  // Add event listeners to listen for closeModal() click and keyboard triggers
+  window.addEventListener('keyup', this.handleKeyUp);
+  this.nextButton.addEventListener('click', this.showNextImage);
+  this.prevButton.addEventListener('click', this.showPrevImage);
+}
+
+// Close Modal
+Gallery.prototype.closeModal = function() {
+  this.modal.classList.remove('open');
+
+  // Remove event listeners for closeModal() click and keyboard triggers
+  window.removeEventListener('keyup', this.handleKeyUp);
+  this.nextButton.removeEventListener('click', this.showNextImage);
+  this.prevButton.removeEventListener('click', this.showPrevImage);
+}
+
+// Handling click outside modal
+Gallery.prototype.handleClickOutside = function(event) {
+  if(event.target === event.currentTarget) { 
+    this.closeModal();
+  }
+}
+
+// Handling keyboard events
+Gallery.prototype.handleKeyUp = function(event) {
+  if(event.key === 'Escape') return this.closeModal(); 
+  if(event.key === 'ArrowRight') return this.showNextImage();
+  if(event.key === 'ArrowLeft') return this.showPrevImage();
+}
+
+// Show next and previous images
+Gallery.prototype.showNextImage = function() {
+  this.showImage(this.currentImage.nextElementSibling || gallery.firstElementChild); 
+}
+
+Gallery.prototype.showPrevImage = function() {
+  this.showImage(this.currentImage.previousElementSibling || gallery.lastElementChild); 
+}
+
+// Populate modal with image specific info + run openModal()
+Gallery.prototype.showImage = function(el) { 
+  if(!el) {
+    console.log('No image to show');
+    return;
+  }
+  // ----------- Update modal with clicked img inf ---------------
+  this.modal.querySelector('img').src = el.src;          // Update the img src of the modal (aka what image modal shows)
+  this.modal.querySelector('h2').textContent = el.title; // Update modal h2 with img title
+  this.modal.querySelector('p').textContent = el.dataset.description; // Update modal p with img data-description (reminder: dataset.customTag)
+
+  // Set currentImage (for use with next & prev buttons)
+  this.currentImage = el;
+
+  // Open Modal
+  this.openModal();
+}
+
+const gallery1 = new Gallery(document.querySelector('.gallery1'));
+const gallery2 = new Gallery(document.querySelector('.gallery2'));
