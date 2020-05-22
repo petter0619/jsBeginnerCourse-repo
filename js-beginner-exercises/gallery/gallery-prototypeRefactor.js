@@ -6,6 +6,7 @@ function Gallery(gallery) {
     throw new Error('No Gallery Found!');
   }
 
+  // Create reference to the instance of Gallery
   this.gallery = gallery;
 
   // Select elements needed
