@@ -2,7 +2,7 @@
 const tabsWrapper = document.querySelector('.tabs');
 
 // Use tabs wrapper const to grab tabbuttons (role?)
-const tabsButtons = tabsWrapper.querySelectorAll('[role="tab"]');
+const tabsButtons = Array.from(tabsWrapper.querySelectorAll('[role="tab"]'));
 
 // Use tabs to grab tabsindex (role)
 const tabsPanels = Array.from(tabsWrapper.querySelectorAll('[role="tabpanel"]'));
@@ -37,6 +37,14 @@ function handleTabButtonClick(event) {
     /* ----> Method 1 
     const tabPanel = tabsWrapper.querySelector(`[aria-labelledby="${tabButtonId}"]`);
     tabPanel.hidden = false;
+    */
+
+    /*
+    //Highlight matching button
+    const otherButton = tabsButtons.find(
+        button => button.getAttribute('id') === tabButtonId && button.getAttribute('aria-selected') === "false"
+    );
+    otherButton.setAttribute('aria-selected', true);
     */
 }
 

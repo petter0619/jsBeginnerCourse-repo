@@ -13,7 +13,7 @@
   <div class="wrapper">
     <div class="tabs">
       <div role="tablist" aria-label="Programming Languages">
-        <button role="tab" aria-selected="true" id="js">
+        <button role="tab" aria-selected="false" id="js">
           JavaScript
         </button>
         <button role="tab" aria-selected="false" id="ruby">Ruby
@@ -22,7 +22,7 @@
           PHP
         </button>
       </div>
-      <div role="tabpanel" aria-labelledby="js">
+      <div role="tabpanel" aria-labelledby="js" hidden>
         <p>JavaScript is great!</p>
       </div>
       <div role="tabpanel" aria-labelledby="ruby" hidden>
@@ -31,6 +31,18 @@
       <div role="tabpanel" aria-labelledby="php" hidden>
         <p>PHP is great!</p>
       </div>
+      <!-- Bottom tab row
+      <div role="tablist" aria-label="Programming Languages">
+        <button role="tab" aria-selected="false" id="js">
+          JavaScript
+        </button>
+        <button role="tab" aria-selected="false" id="ruby">Ruby
+        </button>
+        <button role="tab" aria-selected="false" id="php">
+          PHP
+        </button>
+      </div>
+      -->
     </div>
   </div>
   <script src="./tabs.js"></script>
