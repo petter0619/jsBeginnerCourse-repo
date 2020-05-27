@@ -36,7 +36,7 @@
     <h2>Solution</h2>
     <p>Enter your age in the box below...</p>
     <form class="drinkAbout" autocomplete="off">
-        <input type="text" name="age" id="age" value="12fe53" required>
+        <input type="text" name="age" id="age" placeholder="E.g. 24" required>
         <button type="submit">What can I drink?</button>
     </form>
     <p id="drinkAboutResult"></p>
@@ -70,54 +70,85 @@
     <p>Enter a number in the box below...</p>
     <form class="fizzBuzz" autocomplete="off">
         <input type="text" name="number" id="number" value="12" required>
-        <button type="submit">FizzBuzz Me!</button>
+        <button type="submit">FizzBuzz!</button>
     </form>
-    <p>Result:</p>
+    <p id="fizzBuzzResult"></p>
 
     <!-- Javascript -->
     <script>
     // --------------- Drink About ---------------
 
-    // Grab the input value
+    // Variables
     const drinkAboutForm = document.querySelector('.drinkAbout');
     const drinkAboutResult = document.querySelector('#drinkAboutResult');
-    console.log(drinkAboutResult);
 
-    function handleSubmitDrinkAbout(event) {
+    // drinkAbout Function
+    function drinkAbout(event) {
         event.preventDefault();
-        // Grab input age + convert into a number
-        const age = parseInt(event.currentTarget.age.value);
-        // IF age is not number, do nothing
-        if(!age) {
+        // IF age contains anything that is not a number, do nothing
+        if(event.currentTarget.age.value.match(/\D/g)) {
             console.log('age = NaN');
             drinkAboutResult.textContent = 'Sorry. I can’t tell what drink because that age is incorrect!';
+            return
         }
-        // drinkAbout 
+        // Grab input age + convert into a number
+        const age = parseInt(event.currentTarget.age.value);
+        // drinkAbout Method 2: Nested Ternaries
+        drinkAboutResult.textContent = age < 14 ? 'Drink Toddy' 
+            : age < 18 ? 'Drink Coke' 
+            : age < 21 ? 'Drink Beer'
+            : age < 130 ? 'Drink Whisky'
+            : 'Sorry. I can’t tell what drink because that age is incorrect!';
+        
+        /* --------- drinkAbout Method 1: IF statement
+        let drink;
         if(age < 14) {
-            drinkAboutResult.textContent = 'Drink Toddy';
+            drink = 'Toddy';
         } else if(age < 18) {
-            drinkAboutResult.textContent = 'Drink Coke';
+            drink = 'Coke';
         } else if(age < 21) {
-            drinkAboutResult.textContent = 'Drink Beer';
+            drink = 'Beer';
         } else if(age < 130) {
-            drinkAboutResult.textContent = 'Drink Whisky';
+            drink = 'Whisky';
         } else {
             drinkAboutResult.textContent = 'Sorry. I can’t tell what drink because that age is incorrect!';
+            return;
         }
+        drinkAboutResult.textContent = drink;
+        */
     }
 
     // Event Listener - On 'submit' run function drinkAbout
-    drinkAboutForm.addEventListener('submit', handleSubmitDrinkAbout);
+    drinkAboutForm.addEventListener('submit', drinkAbout);
 
 
     // --------------- /.drinkAbout ---------------
 
     // --------------- FizzBuzz ---------------
 
-    // Grab the input value
+    // Variables
+    const fizzBuzzForm = document.querySelector('.fizzBuzz');
+    const fizzBuzzResult = document.querySelector('#fizzBuzzResult');
 
-
+    // Fizz Buzz Function
+    function fizzBuzz(event) {
+        event.preventDefault();
+        // IF number contains anything that is not a number, do nothing
+        if(event.currentTarget.number.value.match(/\D/g)) {
+            console.log('Not a valid number!');
+            fizzBuzzResult.textContent = 'Not a valid number!';
+            return
+        }
+        // Grab input age + convert into a number
+        const number = parseInt(event.currentTarget.number.value);
+        // FizzBuzz
+        fizzBuzzResult.textContent = !(number % 3) && !(number % 5) ? 'FizzBuzz' 
+            : !(number % 3) ? 'Fizz'
+            : !(number % 5) ? 'Buzz'
+            : number;
+    }
     // Event Listener - On 'submit' run function fizzBuzz
+    fizzBuzzForm.addEventListener('submit', fizzBuzz);
 
     </script>
 </body>
