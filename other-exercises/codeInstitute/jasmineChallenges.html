@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Institute - Jasmine Challenges</title>
+</head>
+<body>
+    <h1>Challenge 1 - Drink About Game</h1>
+    <p>
+        Drink About is a simple function that will check the age and return a drink 
+        appropriate for your age. Create a function called whatCanIDrink. This function 
+        should take in age as parameter. The function should do the following:
+    </p>
+    <ul>
+        <li>
+            If the age is less than 0, then it should return "Sorry. I can’t tell what drink because that age is incorrect!"
+        </li>
+        <li>
+            If the age is less than 14, then it should return "Drink Toddy"
+        </li>
+        <li>
+            If the age is less than 18, then it should return "Drink Coke"
+
+        </li>
+        <li>
+            If the age is less than 21, then it should return "Drink Beer"
+        </li>
+        <li>
+            If the age is less than 130, then it should return "Drink Whisky"
+        </li>
+        <li>
+            Else return "Sorry. I can’t tell what drink because that age is incorrect!"
+        </li>
+    </ul>
+    <h2>Solution</h2>
+    <p>Enter your age in the box below...</p>
+    <form class="drinkAbout" autocomplete="off">
+        <input type="text" name="age" id="age" value="12fe53" required>
+        <button type="submit">What can I drink?</button>
+    </form>
+    <p id="drinkAboutResult"></p>
+    <hr>
+    <h1>Challenge 2 - FizzBuzz</h1>
+    <p>
+        FizzBuzz is a classic programming problem that is often asked as an interview 
+        question. Create a function called fizzBuzz. This function should take in 
+        number as a parameter. The function should do the following:
+    </p>
+    <ul>
+        <li>
+            If the number is divisible by 3 and 5, then return "FizzBuzz"
+        </li>
+        <li>
+            If the number is divisible by 3, then return "Fizz"
+        </li>
+        <li>
+            If the number is divisible by 5, then return "Buzz"
+        </li>
+        <li>
+            Else just return the number
+        </li>
+    </ul>
+    <p>
+        Write a set of tests that pass in various values to the FizzBuzz function and 
+        ensure that the function meets the above requirements. Make sure that you test 
+        all different "types" of inputs that the function may receive.
+    </p>
+    <h2>Solution</h2>
+    <p>Enter a number in the box below...</p>
+    <form class="fizzBuzz" autocomplete="off">
+        <input type="text" name="number" id="number" value="12" required>
+        <button type="submit">FizzBuzz Me!</button>
+    </form>
+    <p>Result:</p>
+
+    <!-- Javascript -->
+    <script>
+    // --------------- Drink About ---------------
+
+    // Grab the input value
+    const drinkAboutForm = document.querySelector('.drinkAbout');
+    const drinkAboutResult = document.querySelector('#drinkAboutResult');
+    console.log(drinkAboutResult);
+
+    function handleSubmitDrinkAbout(event) {
+        event.preventDefault();
+        // Grab input age + convert into a number
+        const age = parseInt(event.currentTarget.age.value);
+        // IF age is not number, do nothing
+        if(!age) {
+            console.log('age = NaN');
+            drinkAboutResult.textContent = 'Sorry. I can’t tell what drink because that age is incorrect!';
+        }
+        // drinkAbout 
+        if(age < 14) {
+            drinkAboutResult.textContent = 'Drink Toddy';
+        } else if(age < 18) {
+            drinkAboutResult.textContent = 'Drink Coke';
+        } else if(age < 21) {
+            drinkAboutResult.textContent = 'Drink Beer';
+        } else if(age < 130) {
+            drinkAboutResult.textContent = 'Drink Whisky';
+        } else {
+            drinkAboutResult.textContent = 'Sorry. I can’t tell what drink because that age is incorrect!';
+        }
+    }
+
+    // Event Listener - On 'submit' run function drinkAbout
+    drinkAboutForm.addEventListener('submit', handleSubmitDrinkAbout);
+
+
+    // --------------- /.drinkAbout ---------------
+
+    // --------------- FizzBuzz ---------------
+
+    // Grab the input value
+
+
+    // Event Listener - On 'submit' run function fizzBuzz
+
+    </script>
+</body>
+</html>
