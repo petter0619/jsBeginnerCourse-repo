@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nackademin Antagningsprov: Obegränsad Tärning - Petter Carlsson 910619-4518</title>
+</head>
+<body>
+    <form class="diceForm">
+        <select id="dice" name="dice">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        <button type="submit">Kasta tärningar!</button>
+    </form>
+    <div id="resultDiv"></div>
+    
+    <!-- Javascript -->
+    <script>
+        // Variables
+        const diceForm = document.querySelector('.diceForm');
+        let diceNum;
+        let resultArray = [];
+
+        // Functions
+
+        // Function: Generate random number between 1 and 'limit'
+        function randomNumber() {
+            const result = Math.floor(Math.random() * 6) + 1;
+            if(result < 6) {
+                return result;
+            }
+            return 'Rolled a 6. Rolling 2 more dice.';
+        }
+
+        // Array.from({ length: 5 }, () => randomNumber() )
+
+        function handleDiceSubmit(event) {
+            event.preventDefault();
+            // Grab diceNum
+            diceNum = parseInt(event.currentTarget.dice.value);
+            // Run randomNumber diceNum number of times
+            for (let i = 1; i < diceNum + 1; i++) {
+                const roll = randomNumber();
+                if(roll === 'Rolled a 6. Rolling 2 more dice.') {
+                    diceNum += 2;
+                }
+                resultArray.push(roll);
+                console.log( `round: ${i} of ${diceNum}`, `result: ${roll}`);
+            }
+            console.log(resultArray);
+        }
+
+        // Event Listeners
+        diceForm.addEventListener('submit', handleDiceSubmit);
+    </script>
+</body>
+</html>
