@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nackademin Antagningsprov: Obegränsad Tärning - Petter Carlsson 910619-4518</title>
+    <title>Obegränsad 6-sidig tärning - Petter Carlsson 910619-4518</title>
 </head>
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
 <body>
+    <h1>Obegränsad 6-sidig tärning</h1>
+    <p style="font-style: italic;">Skapades av Petter Carlsson den 29:e maj, 2020</p>
+    <h4>Instruktioner:</h4>
+    <ol>
+        <li>Välj hur många tärningar du vill kasta</li>
+        <li>Kasta tärningarna</li>
+        <li>Om du rullar en 6:a får du 2 extra tärningskast!</li>
+    </ol>
     <form class="diceForm">
         <select id="dice" name="dice">
             <option value="1">1</option>
@@ -13,49 +26,101 @@
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
-          </select>
+        </select>
         <button type="submit">Kasta tärningar!</button>
     </form>
     <div id="resultDiv"></div>
+    <button id="resetButton" class="hidden">Kör igen!</button>
     
     <!-- Javascript -->
     <script>
-        // Variables
+        // ------------------------ Variables ------------------------
         const diceForm = document.querySelector('.diceForm');
+        const resultDiv = document.querySelector('#resultDiv');
+        const resetButton = document.querySelector('#resetButton');
         let diceNum;
         let resultArray = [];
-
-        // Functions
-
+        let rollTotal = 0;
+    
+        // ------------------------ Functions ------------------------
         // Function: Generate random number between 1 and 'limit'
         function randomNumber() {
-            const result = Math.floor(Math.random() * 6) + 1;
-            if(result < 6) {
-                return result;
-            }
-            return 'Rolled a 6. Rolling 2 more dice.';
+            return Math.floor(Math.random() * 6) + 1;
         }
-
-        // Array.from({ length: 5 }, () => randomNumber() )
-
-        function handleDiceSubmit(event) {
+        
+        // Handle Dice Submit
+        function rollDice(event) {
             event.preventDefault();
-            // Grab diceNum
+            // Check if input is a valid number
+            if(!event.currentTarget.dice.value.match(/[1-5]/)) {
+                alert('Du har inte valt ett giltigt nummer! Försök igen.');
+                return;
+            }
+            // Hide diceForm
+            diceForm.classList.add('hidden');
+            // Grab the number of dice being thrown
             diceNum = parseInt(event.currentTarget.dice.value);
-            // Run randomNumber diceNum number of times
+            // Add initial text to resultDiv
+            resultDiv.innerHTML = `<hr><h2>Resultat</h2><p>Du har kastat ${diceNum} ${diceNum === 1 ? 'tärning': 'tärningar'}. Dina tärningskast är:</p><ul id="rollResults"></ul>`;
+            // Run randomNumber function 'diceNum' number of times
             for (let i = 1; i < diceNum + 1; i++) {
-                const roll = randomNumber();
-                if(roll === 'Rolled a 6. Rolling 2 more dice.') {
+                let roll = randomNumber();
+                // IF result of roll equals 6, add 2 to diceNum instead
+                if(roll === 6) {
+                    roll = 'Du rullade en 6:a. Du får 2 extra tärningskast!';
                     diceNum += 2;
                 }
+                // Push results of rolls to resultArray
                 resultArray.push(roll);
-                console.log( `round: ${i} of ${diceNum}`, `result: ${roll}`);
             }
-            console.log(resultArray);
+            // Grab the newly created #rollResult ul
+            const rollResults = document.querySelector('#rollResults');
+            // Add results to #rollResult ul in resultDiv
+            for(let i = 0; i < resultArray.length; i++) {
+                presentResults(i);
+            }
+            // Show reset button after all results have been added to page
+            setTimeout(function() {
+                resetButton.classList.remove('hidden')
+            }, 750 * diceNum);
+        }    
+        
+        // Function to slow down the placing of results on page
+        function presentResults(i) {
+            setTimeout(function() {
+                // Create a list item for each roll and add to page
+                const li = document.createElement('li');
+                li.innerHTML = `${resultArray[i]}`;
+                rollResults.appendChild(li);
+                // Calculate running rollTotal
+                if(typeof(resultArray[i]) === 'number') {
+                    rollTotal += resultArray[i];
+                } else {
+                    rollTotal += 0;
+                }
+                // Add rollTotal to resultDiv
+                const resultP = document.createElement('p');
+                resultP.classList.add('totalResult');
+                resultP.innerHTML = `Totalsumma: ${rollTotal}`;
+                if(document.querySelector('.totalResult')) {
+                    document.querySelector('.totalResult').innerHTML = `Totalsumma: ${rollTotal}`;
+                } else {
+                    resultDiv.appendChild(resultP);
+                }
+            }, 750 * i);
+        } 
+
+        // Handle reset button click
+        function handleReset() {
+            resultArray = [];
+            resultDiv.innerHTML = '';
+            diceForm.classList.remove('hidden');
+            resetButton.classList.add('hidden');
         }
 
-        // Event Listeners
-        diceForm.addEventListener('submit', handleDiceSubmit);
+        // ------------------------ Event Listeners ------------------------
+        diceForm.addEventListener('submit', rollDice);
+        resetButton.addEventListener('click', handleReset);
     </script>
 </body>
 </html>
