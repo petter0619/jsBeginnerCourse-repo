@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Obegränsad 6-sidig tärning - Petter Carlsson 910619-4518</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
-<style>
-    .hidden {
-        display: none;
-    }
-</style>
 <body>
+    <!-- Introduction -->
     <h1>Obegränsad 6-sidig tärning</h1>
     <p style="font-style: italic;">Skapades av Petter Carlsson den 29:e maj, 2020</p>
     <h4>Instruktioner:</h4>
@@ -19,6 +20,7 @@
         <li>Kasta tärningarna</li>
         <li>Om du rullar en 6:a får du 2 extra tärningskast!</li>
     </ol>
+    <!-- Dice Form -->
     <form class="diceForm">
         <select id="dice" name="dice">
             <option value="1">1</option>
@@ -29,26 +31,28 @@
         </select>
         <button type="submit">Kasta tärningar!</button>
     </form>
+    <!-- Results + Reset button -->
     <div id="resultDiv"></div>
     <button id="resetButton" class="hidden">Kör igen!</button>
     
-    <!-- Javascript -->
+    <!-- //------------------------ Javascript ------------------------// -->
     <script>
         // ------------------------ Variables ------------------------
-        const diceForm = document.querySelector('.diceForm');
-        const resultDiv = document.querySelector('#resultDiv');
-        const resetButton = document.querySelector('#resetButton');
-        let diceNum;
-        let resultArray = [];
-        let rollTotal = 0;
+        var diceForm = document.querySelector('.diceForm');
+        var resultDiv = document.querySelector('#resultDiv');
+        var resetButton = document.querySelector('#resetButton');
+        var diceNum;
+        var resultArray = [];
+        var rollTotal = 0;
+        // Had to change variable declarations to 'var' over 'let'/'const' otherwise application won't run in Safari
     
         // ------------------------ Functions ------------------------
-        // Function: Generate random number between 1 and 'limit'
+        // Generate random number between 1 and 6
         function randomNumber() {
             return Math.floor(Math.random() * 6) + 1;
         }
         
-        // Handle Dice Submit
+        // Calculate dice rolls, handle diceroll of 6, and add results to resultArray
         function rollDice(event) {
             event.preventDefault();
             // Check if input is a valid number
@@ -65,7 +69,7 @@
             // Run randomNumber function 'diceNum' number of times
             for (let i = 1; i < diceNum + 1; i++) {
                 let roll = randomNumber();
-                // IF result of roll equals 6, add 2 to diceNum instead
+                // IF result of roll equals 6, increment diceNum by 2
                 if(roll === 6) {
                     roll = 'Du rullade en 6:a. Du får 2 extra tärningskast!';
                     diceNum += 2;
@@ -73,22 +77,19 @@
                 // Push results of rolls to resultArray
                 resultArray.push(roll);
             }
-            // Grab the newly created #rollResult ul
-            const rollResults = document.querySelector('#rollResults');
             // Add results to #rollResult ul in resultDiv
             for(let i = 0; i < resultArray.length; i++) {
-                presentResults(i);
+                presentResults(i, diceNum);
             }
-            // Show reset button after all results have been added to page
-            setTimeout(function() {
-                resetButton.classList.remove('hidden')
-            }, 750 * diceNum);
         }    
         
-        // Function to slow down the placing of results on page
-        function presentResults(i) {
+        // Function to add results to page (placed in seperate function to slow down the placing of the elements on the page using setTimeout)
+        function presentResults(i, diceNum) {
+            // Add dice rolls and running total to page
             setTimeout(function() {
-                // Create a list item for each roll and add to page
+                // Grab the #rollResult ul (created in rollDice function)
+                const rollResults = document.querySelector('#rollResults');
+                // Create a list item for each roll and add #rollResult ul
                 const li = document.createElement('li');
                 li.innerHTML = `${resultArray[i]}`;
                 rollResults.appendChild(li);
@@ -98,7 +99,7 @@
                 } else {
                     rollTotal += 0;
                 }
-                // Add rollTotal to resultDiv
+                // Add rollTotal to .resultDiv
                 const resultP = document.createElement('p');
                 resultP.classList.add('totalResult');
                 resultP.innerHTML = `Totalsumma: ${rollTotal}`;
@@ -108,6 +109,10 @@
                     resultDiv.appendChild(resultP);
                 }
             }, 750 * i);
+            // Show reset button after all results have been added to page
+            setTimeout(function() {
+                resetButton.classList.remove('hidden')
+            }, 750 * diceNum);
         } 
 
         // Handle reset button click
