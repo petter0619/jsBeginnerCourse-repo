@@ -9,19 +9,110 @@
     <div id="data"></div>
     <!-- Javascript -->
     <script>
+        /*
         var xhr = new XMLHttpRequest();
         var data;
 
         xhr.open("GET", "https://ci-swapi.herokuapp.com/api/");
         xhr.send();
 
+        
+        function sendData(jsonData) {
+            data = jsonData;
+            console.log('setData:', data);
+        }
+
         xhr.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
+            console.log(this.readyState);
+            if(this.readyState == 4 && this.status == 200) {
                 document.getElementById("data").innerHTML = this.responseText;
                 var data = JSON.parse(this.responseText);
-                console.log( data );
+                console.log('xhr.onreadystatechange:', data );
             }
         };
+
+        // Code Institute solution #1 for waiting until the data is fetched
+        setTimeout(function() {
+            console.log('setTimeout:', data);
+        }, 500);
+        */
+
+        // Code Institute solution 2
+        function getData(callbackFunc) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("GET", "https://ci-swapi.herokuapp.com/api/");
+            xhr.send();
+
+            xhr.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    callbackFunc( JSON.parse(this.responseText) );
+                }
+            };
+        }
+
+        function printDataToConsole(data) {
+            console.log(data);
+        }
+
+        function writeDataToDocument(data) {
+            document.getElementById("data").innerHTML = JSON.stringify(data);
+        }
+
+        /*getData(function(data) {
+            console.log(data);
+        });*/
+
+        //getData(printDataToConsole);
+        //getData(writeDataToDocument);
+
+        const starWarsPromise = new Promise( (resolve, reject) => {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://ci-swapi.herokuapp.com/api/");
+            xhr.send();
+            xhr.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    resolve( JSON.parse(this.responseText) );
+                }
+            };
+        });
+        /*starWarsPromise.then( (data) => {
+            console.log(data.films);
+            console.log(data.planets);
+            console.log(data.people);
+            console.log(data.species);
+            console.log(data.starships);
+            console.log(data.vehicles);
+        });*/
+
+        async function fetchData(url) {             // Returns a Promise: 'async' functions ALWAYS return promises...
+            const response = await fetch( url );
+            const data = await response.json();
+            return data;
+            //logData(data);
+        }
+        
+        async function logData() {
+            const dataToLog = await fetchData('https://ci-swapi.herokuapp.com/api/');
+            console.log(dataToLog);
+        }
+        logData();
+
+
+
+        var xhr = new XMLHttpRequest();                             // new XMLHttpRequest(); = The constructor initializes an XMLHttpRequest. It must be called before any other method calls.
+        xhr.open("GET", "https://ci-swapi.herokuapp.com/api/");     // .open() = Initializes a request. See params: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/open
+        xhr.send();                                                 // .send() = Sends the request.
+        xhr.onload = function() {                                   // .onload() =  The XMLHttpRequestEventTarget.onload is the callback function called when an XMLHttpRequest transaction completes successfully. https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequestEventTarget/onload
+            if(this.readyState == 4 && this.status == 200) {
+                console.log( '--------------- xhr.onload --------------- ', JSON.parse(this.responseText));
+            }
+        };
+        
+        
+
+        // Examples of ways to use XMLHttpRequest with 'async await': https://stackoverflow.com/questions/48969495/in-javascript-how-do-i-should-i-use-async-await-with-xmlhttprequest
+
     </script>
 </body>
 </html>
