@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Beginner - CORS and Recipe Puppy API</title>
+    <link rel="stylesheet" href="../../base.css">
+    <style>
+        .search {
+        display: grid;
+        grid-template-columns: 1fr;
+        }
+
+        button[disabled] {
+        opacity: 0.2;
+        }
+
+        .recipes {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-gap: 20px;
+        }
+
+        .recipe {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        }
+  </style>
+</head>
+<body>
+    <div class="wrapper">
+        <form class="search" autocomplete="off">
+          <input type="text" name="query" value="pizza">
+          <button name="submit" type="submit">Submit</button>
+        </form>
+        <div class="recipes"></div>
+      </div>
+    
+    <!-- Javascript -->
+    <script>
+        console.log('it works');
+
+        const baseEndpoint  = 'http://www.recipepuppy.com/api';
+        const proxy = 'http://cors-anywhere.herokuapp.com/';
+        const form = document.querySelector('form.search');
+        const recipesGrid = document.querySelector('.recipes');
+
+        function handleError(err) {
+            console.log('OH NO!');
+            console.log(err);
+            recipesGrid.innerHTML = `Something went wrong: ${err}`
+        }
+
+        async function fetchRecipes(query) {
+            const response = await fetch( `${proxy}${baseEndpoint}?q=${query}` );
+            const data = await response.json();
+            return data;
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            const el = e.currentTarget;
+            console.log(el.query.value);
+            fetchAndDisplay(el.query.value);
+        }
+
+        async function fetchAndDisplay(query) {
+            // Turn form off
+            form.submit.disabled = true;
+            recipesGrid.innerHTML = 'Loading...';
+            // Submit the search
+            const recipes = await fetchRecipes(query).catch(handleError);
+            console.log(recipes);
+            form.submit.disabled = false;
+            displayRecipes(recipes.results);
+        }
+
+        function displayRecipes(recipes = []) {
+            const html = recipes.map(recipe => {
+                return `<div class="recipe">
+                    <h2>${recipe.title}</h2>
+                    ${recipe.thumbnail && `<img src="${recipe.thumbnail}" alt="${recipe.title}"/><br>`}
+                    <p>Ingredients:</p>
+                    <ul class="ingredientList">
+                        ${recipe.ingredients.split(',').map(ingredient => {
+                            return`<li>${ingredient}</li>`;
+                        }).join('')}
+                    </ul>
+                    <a href="${recipe.href}" target="_blank">View Recipe -></a>
+                </div>`
+            });
+            recipesGrid.innerHTML = html.join('');
+        }
+
+        form.addEventListener('submit', handleSubmit);
+    </script>
+</body>
+</html>
