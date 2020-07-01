@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecipePuppy tests: XHR Request method + Only Proxy necessary?</title>
+</head>
+<body>
+    <div id="data"></div>
+    <!-- Javascript -->
+    <script>
+        const baseEndpoint = 'http://www.recipepuppy.com/api/';
+        const proxy = 'https://cors-anywhere.herokuapp.com/';
+
+        var xhr = new XMLHttpRequest();
+        var data;
+
+        xhr.open('GET', `${proxy}${baseEndpoint}?q=pizza`);
+        xhr.send();
+
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                console.log( data );
+            }
+        };
+    </script>
+</body>
+</html>

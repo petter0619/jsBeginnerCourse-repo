@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Request method to get API's</title>
+</head>
+<body>
+    <div id="data"></div>
+    <!-- Javascript -->
+    <script>
+        var xhr = new XMLHttpRequest();
+        var data;
+
+        xhr.open("GET", "https://ci-swapi.herokuapp.com/api/");
+        xhr.send();
+
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("data").innerHTML = this.responseText;
+                var data = JSON.parse(this.responseText);
+                console.log( data );
+            }
+        };
+    </script>
+</body>
+</html>
