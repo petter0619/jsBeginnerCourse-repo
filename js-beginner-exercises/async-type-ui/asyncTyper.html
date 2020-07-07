@@ -57,20 +57,10 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        /*
-        ---> Not a pure function
-        function getRandomBetween(min, max) {
-            return Math.floor(Math.random() * (max - min) + min);
-        }
-
-        Pure function: That a function that takes in arguments will always return the same value every time; which makes testing them easy.
-        */
-
         // Random number generator as a Pure Function (this also applies to date)
         function getRandomBetween(min, max, randomNumber = Math.random()) { // <---------- Utility Function
             return Math.floor(randomNumber * (max - min) + min);
         }
-        //This way you can easily test it by passing in e.g. 0.5 as your random number. If you don't apss anything it defaults to Math.random()
         
         // Method 1: Async FOR OF loop
         async function draw(el) {
