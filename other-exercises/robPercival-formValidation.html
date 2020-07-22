@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rob Percival jQuery - Form Validation</title>
+    <style type="text/css">
+            
+        body {
+            font-family: helvetica, sans-serif;
+            font-size:130%;
+        }
+
+        input {
+            padding: 5px 5px 12px 5px;
+            font-size: 25px;
+            border-radius: 5px;
+            border: 1px solid grey;
+            width:320px;
+        }
+        
+        label {
+            position: relative;
+            top:12px;
+            width:200px;
+            float: left;
+        }
+        
+        #wrapper {
+            width: 550px;
+            margin: 0 auto;
+        }
+        
+        .form-element {
+            margin-bottom: 10px;
+        }
+        
+        #submitButton {
+            width: 130px;
+            margin-left: 200px;
+        }
+        
+        #errorMessage {
+            color: red;
+            font-size: 90% !important;
+        }
+        
+        #successMessage {
+            color: green;
+            font-size: 90% !important;
+            display:none;
+            margin-bottom:20px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="form-element">
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" placeholder="eg. yourname@gmail.com">
+        </div>
+        <div class="form-element"></div>
+            <label for="phone">Telephone</label>
+            <input type="text" name="phone" id="phone" placeholder="eg. 0123456789">
+        </div>
+        <div class="form-element">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+        </div>
+        <div class="form-element">
+            <label for="passwordConfirm">Confirm Password</label>
+            <input type="password" name="passwordConfirm" id="passwordConfirm">
+        </div>
+        <div class="form-element">
+            <input type="submit" id="submitButton" value="Sign Up">
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> <!-- jQuery UI -->
+    <script>
+        //Start here
+    </script>
+</body>
+</html>
