@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Code Camp - JavaScript Algorithms and Data Structures Projects - Caesars Cipher</title>
+</head>
+<body>
+    <p>Examples:</p>
+    <ul>
+        <li>rot13("SERR PBQR PNZC") should decode to FREE CODE CAMP</li>
+        <li>rot13("SERR CVMMN!") should decode to FREE PIZZA!</li>
+        <li>rot13("SERR YBIR?") should decode to FREE LOVE?</li>
+        <li>rot13("GUR DHVPX OEBJA SBK WHZCF BIRE GUR YNML QBT.") should decode to THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG.</li>
+    </ul>
+
+
+    <!-- Javascript -->
+    <script>
+        function rot13(str) {
+            const alphabet = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase();
+            const decode = Array.from(str).map(letter => {
+                const letterIndex = alphabet.indexOf(letter);
+                if(letterIndex == -1) {
+                    return letter;
+                } 
+                else if( (letterIndex + 13) > 25) {
+                    return alphabet[(letterIndex + 13)-26]
+                }
+                else {
+                    return alphabet[letterIndex + 13]
+                }
+            });
+            return decode.join('');
+        }
+
+        console.log(rot13('SERR PBQR PNZC')); // A => N + N => A 
+        console.log(rot13('SERR CVMMN!'));
+        console.log(rot13('SERR YBIR?'));
+        console.log(rot13('GUR DHVPX OEBJA SBK WHZCF BIRE GUR YNML QBT.'));
+
+    </script>
+</body>
+</html>

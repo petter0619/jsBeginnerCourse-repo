@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Code Camp - JavaScript Algorithms and Data Structures Projects - Caesars Cipher</title>
+</head>
+<body>
+    <p>Roman Numerals:</p>
+    <ul>
+        <li>I = 1</li>
+        <li>V = 5</li>
+        <li>X = 10</li>
+        <li>L = 50</li>
+        <li>C = 100</li>
+        <li>D = 500</li>
+        <li>M = 1000</li>
+    </ul>
+    <p>
+        The numerals for 4 (IV) and 9 (IX) are written using "subtractive notation", where the first 
+        symbol (I) is subtracted from the larger one (V, or X), thus avoiding the clumsier (IIII, and VIIII). 
+        Subtractive notation is also used for 40 (XL) and 90 (XC), as well as 400 (CD) and 900 (CM). 
+        These are the only subtractive forms in standard use.
+    </p>
+    <ul>
+        <li>4 = IV</li>
+        <li>9 = IX</li>
+        <li>40 = XL</li>
+        <li>90 = XC</li>
+        <li>400 = CD</li>
+        <li>900 = CM</li>
+    </ul>
+    <p>Examples:</p>
+    <ul>
+        <li>3999 => MMMCMXCIX</li>
+        <li>798 => DCCXCVIII</li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+
+    <!-- Javascript -->
+    <script>
+        /*
+        
+            Thousands | Hundreds | Tens | Ones
+            0 | 1 | 2 | 3
+        
+        */
+
+        function convertToRoman(num) {
+
+            const thousands = Math.floor(num / 1000);
+            const hundreds = Math.floor((num % 1000)/ 100);
+            const tens = Math.floor(((num % 1000) % 100) / 10);
+            const ones = ((num % 1000) % 100) % 10;
+
+            const onesMap = new Map([
+                [0, ''],
+                [1, 'I'],
+                [2, 'II'],
+                [3, 'III'],
+                [4, 'IV'],
+                [5, 'V'],
+                [6, 'VI'],
+                [7, 'VII'],
+                [8, 'VIII'],
+                [9, 'IX'],
+            ]);
+
+            const tensMap = new Map([
+                [0, ''],
+                [1, 'X'],
+                [2, 'XX'],
+                [3, 'XXX'],
+                [4, 'XL'],
+                [5, 'L'],
+                [6, 'LX'],
+                [7, 'LXX'],
+                [8, 'LXXX'],
+                [9, 'XC'],
+            ]);
+
+            const hundredsMap = new Map([
+                [0, ''],
+                [1, 'C'],
+                [2, 'CC'],
+                [3, 'CCC'],
+                [4, 'CD'],
+                [5, 'D'],
+                [6, 'DC'],
+                [7, 'DCC'],
+                [8, 'DCCC'],
+                [9, 'CM'],
+            ]);
+
+            const thousandsMap = new Map([
+                [0, ''],
+                [1, 'M'],
+                [2, 'MM'],
+                [3, 'MMM'],
+            ]);
+
+            let romanNumeral = '';
+
+            if(num.toString().length === 4) {
+                romanNumeral += thousandsMap.get(thousands)
+                romanNumeral += hundredsMap.get(hundreds);
+                romanNumeral += tensMap.get(tens);
+                romanNumeral += onesMap.get(ones);
+            }
+            else if(num.toString().length === 3) {
+                romanNumeral += hundredsMap.get(hundreds);
+                romanNumeral += tensMap.get(tens);
+                romanNumeral += onesMap.get(ones);
+            }
+            else if(num.toString().length === 2) {
+                romanNumeral += tensMap.get(tens);
+                romanNumeral += onesMap.get(ones);
+            }
+            else {
+                romanNumeral += onesMap.get(ones);
+            }
+
+            return romanNumeral;
+
+        }
+
+        console.log('68',convertToRoman(68), '= LXVIII');
+        console.log('83',convertToRoman(83), '= LXXXIII');
+        console.log('97',convertToRoman(97), '= XCVII');
+        console.log('798',convertToRoman(798), '= DCCXCVIII');
+
+
+    </script>
+</body>
+</html>
