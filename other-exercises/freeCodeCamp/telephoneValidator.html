@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Code Camp - JavaScript Algorithms and Data Structures Projects - Telephoen Number Validator</title>
+</head>
+<body>
+    <p>Should match:</p>
+    <ul>
+        <li>800-692-7753</li>
+        <li>555-555-5555</li>
+        <li>(555)555-5555</li>
+        <li>(555) 555-5555</li>
+        <li>555 555 5555</li>
+        <li>5555555555</li>
+        <li>1 555 555 5555</li>
+    </ul>
+    
+    <p>Should not match:</p>
+    <ul>
+        <li>8oo-six427676;laskdjf</li>
+    </ul>
+    <!-- Javascript -->
+    <script>
+
+        function telephoneCheck(str) {
+            if(str.length > str.match(/[0-9 ()-]/gi).length || str.match(/[0-9]/g).length > 11 || str.match(/[0-9]/g).length < 10) {
+                return false;
+            } else if(str.match(/[0-9]/g).length === 11 && str[0] !== '1') {
+                return false;
+            }
+            const regex = /^(1 |1)?([0-9]{3}|\([0-9]{3}\))( |-)?[0-9]{3}( |-)?[0-9]{4}$/gi;
+            return regex.test(str);
+        }
+
+        console.log(telephoneCheck('8oo-six427676;laskdjf'));
+        console.log('------------');
+        console.log(telephoneCheck('800-692-7753'));
+        console.log(telephoneCheck('555-555-5555'));
+        console.log(telephoneCheck('(555)555-5555'));
+        console.log(telephoneCheck('(555) 555-5555'));
+        console.log(telephoneCheck('555 555 5555'));
+        console.log(telephoneCheck('5555555555'));
+        console.log(telephoneCheck('1 555 555 5555'));
+        console.log(telephoneCheck('2 555 555 5555'));
+
+
+       // /[0-9 ()-]/gi
+
+       // string.match(/[0-9]/g).length  10 = no country code | 11 = country code
+    </script>
+</body>
+</html>
