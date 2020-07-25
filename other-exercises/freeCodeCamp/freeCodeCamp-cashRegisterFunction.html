@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Free Code Camp JS Certification Project - Cash Register Function</title>
+    </head>
+    <body>
+        
+        
+        
+        <!-- Javascript -->
+        <script>
+            
+            /*
+                DONE - Return {status: "INSUFFICIENT_FUNDS", change: []} if cash-in-drawer is less than the change due, or if you cannot return the exact change.
+                
+                DONE - Return {status: "CLOSED", change: [...]} with cash-in-drawer as the value for the key change if it is equal to the change due.
+            
+                If exact change available, return {status: "OPEN", change: [...]}, with the change due in coins and bills, sorted in highest to lowest order, as the value of the change key.
+            
+            */
+            
+           function checkCashRegister(price, cash, cid) {
+                // 1) Calculate change in cents
+                const change = (cash*100) - (price*100);
+                // 2) Calculate if there is sufficient funds in cents
+                const availableChange = cid.reduce((accumulator, arrayItem) => {
+                    return accumulator + (arrayItem[1]*100);
+                }, 0);
+                // 3) IF change not sufficient return {status: "INSUFFICIENT_FUNDS", change: []}
+                if(change > availableChange) {
+                    return {status: "INSUFFICIENT_FUNDS", change: []};
+                } else if(change === availableChange) { // 4) IF change is equal to availableChange return {status: "CLOSED", change: [...]} where change key = cid
+                    return {status: "CLOSED", change: cid};
+                } 
+                const changeObject = {
+                    PENNY: 1,
+                    NICKEL: 5,
+                    DIME: 10,
+                    QUARTER: 25,
+                    ONE: 100,
+                    FIVE: 500,
+                    TEN: 1000,
+                    TWENTY: 2000,
+                    HUNDRED: 10000,
+                }
+                // 5) Reverse the CID array order and change it into cents + add number of bills/coins available + add singleBill/singleCoin value
+                const reverseCid = [...cid].reverse().map(arrayItem => {
+                    return arrayItem[0] === 'ONE HUNDRED' ? ['HUNDRED',Math.round(arrayItem[1] * 100), Math.round(arrayItem[1] * 100) / 10000, 10000] : [arrayItem[0],Math.round(arrayItem[1] * 100), Math.round(arrayItem[1] * 100) / changeObject[arrayItem[0]], changeObject[arrayItem[0]] ];
+                });
+                // 6) Loop prep
+                const changeDue = [];
+                let changeLeft = change;
+                
+                // 7) Calculate change
+                reverseCid.forEach( arrayItem => {
+                    // 7.0) How many bills/coins of X value fits into change?
+                    const singleValue = arrayItem[3];
+                    const billsNeeded = Math.floor(changeLeft / singleValue);
+                    const billsAvailable = arrayItem[2];
+                    
+                    // 7.1) IF changeLeft < value of single bill/coin THEN push 0 \\ IF changeLeft = 0 THEN push 0
+                    if(changeLeft < singleValue || changeLeft === 0) {
+                        return;
+                    }
+                    // 7.2) IF more billNeeded than # available OR equal to # available, push all \\ IF 0 then move on to next bill & push 0
+                    if(billsNeeded >= billsAvailable) {
+                        arrayItem[0] === 'HUNDRED' ? changeDue.push(['ONE HUNDRED', billsAvailable * 100 ]) : changeDue.push([arrayItem[0], (billsAvailable * singleValue)/100]);
+                        changeLeft -= (singleValue * billsAvailable);
+                        return;
+                    } else { // 7.3) IF billsNeeded < billsAvailable (more bills than need) THEN 
+                        arrayItem[0] === 'HUNDRED' ? changeDue.push(['ONE HUNDRED', billsNeeded * 100 ]) : changeDue.push([arrayItem[0], (billsNeeded * singleValue)/100]);
+                        changeLeft -= (singleValue * billsNeeded);
+                        return;
+                    }
+                });
+                // 8) Does it still cover the change?
+                const changeDueTotal = changeDue.reduce((accumulator, arrayItem) => {
+                    return accumulator + (arrayItem[1]*100);
+                }, 0);
+                if(changeDueTotal < change) {
+                    return {status: "INSUFFICIENT_FUNDS", change: []};
+                }
+                return {status: 'OPEN', change: changeDue};
+            } 
+            
+            const exampleCID = [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]];
+            
+            console.log(checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]));
+            console.log(checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]));
+            console.log(checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]));
+            console.log(checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]));
+            console.log(checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]));
+            console.log(checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]));
+
+        </script>
+    </body>
+</html>
