@@ -31,3 +31,11 @@ async function asyncMap(array, callbackFunction) {
 function wait(ms = 0) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+// Format currency (from cents to dollars & cents)
+function formatCurrency(amount, currency = 'USD') {
+    return Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency,
+    }).format(amount);
+}
