@@ -39,3 +39,12 @@ function formatCurrency(amount, currency = 'USD') {
         currency,
     }).format(amount);
 }
+
+// Wes Bos instanceCounter (tally) function
+function instanceCounter(tally, arrayItem) {
+    tally[arrayItem] = (tally[arrayItem] || 0) + 1;
+    return tally;
+}
+/* How to use: Tally letters in array with.reduce(). Ex:
+    const tallyObject = array.reduce(instanceCounter, {});
+*/
