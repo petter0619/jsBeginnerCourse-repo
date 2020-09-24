@@ -114,7 +114,7 @@
                 ${ $('#htmlPanel').val() }
                 </body>
             `);
-
+            // Using the eval() function to render JS inside the iFrame contentWindow
             document.getElementById('outputPanel').contentWindow.eval( $('#javascriptPanel').val() );
         }
 
