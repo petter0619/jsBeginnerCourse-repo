@@ -13,3 +13,7 @@ http.createServer(function(request, response) {
 }).listen(3000, '127.0.0.1');
 
 console.log('Server running at http://127.0.0.1:3000/ (aka http://localhost:3000/)');
+
+// Improvement ideas:
+    // Currently CSS is internal on the pages. Extract CSS into external files and make that work.
+    // Project suggestion: Build a lorem ipsum generator

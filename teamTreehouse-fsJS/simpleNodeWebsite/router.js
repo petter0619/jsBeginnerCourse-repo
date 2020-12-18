@@ -9,7 +9,7 @@ function homeRoute(request, response) {
     // if ( url == "/" && GET )
     if( request.url === '/' ) {
         if( request.method.toLowerCase() === 'get' ) {
-            response.writeHead(200, commonHeaders); // CommonHeaders = what type of content to serve to the browser e.g: text/html, text/plain, application/json, text/css, text/javascript
+            response.writeHead(200, commonHeaders); // CommonHeaders = what type of content to serve to the browser e.g: text/html, text/plain, application/json, text/css, text/javascript, application/pdf
             // show search
             renderer.view('header', {}, response);
             renderer.view('search', {}, response);
@@ -23,8 +23,8 @@ function homeRoute(request, response) {
                 // Extract the username
                 var query = queryString.parse( postBody.toString() );
                 // Redirect to user page
-                response.writeHead(303, { 'Location': '/' + query.username });
-                response.end();
+                response.writeHead(303, { 'Location': '/' + query.username });  // 303 = response status && { 'Location': '/path' } = HTTP Header
+                response.end();                                                 // Redirect status: 303 = "See Other", 302 = "Temporary redirect", 301 = "Permanent redirect"
             });
         }
     }
