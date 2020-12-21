@@ -40,22 +40,15 @@ function homeRoute(request, response) {
         }
     }
 }
-
-function ignoreFavicon(request, response) {
-    /*
-    Browsers will by default try to request /favicon.ico from the root of a hostname, in order to show an icon in the browser tab.
-    If you want to avoid this request returning a 404, you can either:
-        - Supply a favicon.ico file that is available at the root of your site.
-        - Use a module such as serve-favicon to point requests to a specific file.
-        - Catch the favicon.ico request and send a 204 No Content status: app.get('/favicon.ico', (req, res) => res.status(204));
-    */
-    if( request.url === '/favicon.ico' ) {
-        response.statusCode = 204;
-        response.end();
-    }
-}
-
+/*
+Browsers will by default try to request /favicon.ico from the root of a hostname, in order to show an icon in the browser tab.
+If you want to avoid this request returning a 404, you can either:
+    - Supply a favicon.ico file that is available at the root of your site.
+    - Use a module such as serve-favicon to point requests to a specific file.
+    - Catch the favicon.ico request and send a 204 No Content status: response.statusCode = 204;
+*/
 function nextRoute(request, response) {
+    // !!! If this request.url === (any previous path) then you will get a "Tried to response.write() after response.end() error !!!"
     if( request.url !== '/' && request.url !== '/favicon.ico' ) {
         response.writeHead(301, { 'Location': '/' });
         response.end();   
@@ -63,5 +56,4 @@ function nextRoute(request, response) {
 }
 
 module.exports.home = homeRoute;
-module.exports.ignoreFavicon = ignoreFavicon;
 module.exports.next = nextRoute;
