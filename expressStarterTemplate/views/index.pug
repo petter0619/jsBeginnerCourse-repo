@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h2 Hello, #{name || 'world'}!
+    form(action='/hello', method='POST')
+        label  What is your name? 
+            input(type='text', name='name')
+        button(type='submit') My name is...
+    if name
+        br
+        form(action="/goodbye" method="POST")
+            button(type='submit') Forget my name!
