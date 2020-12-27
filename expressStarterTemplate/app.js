@@ -17,6 +17,11 @@ app.use('/static', express.static('public') );
 // 3.1) Set up body parser middleware to parse request body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+/*
+// 3.1) ALTERNATIVELY you can use the built-in body parser middleware to parse your requests. Exactly the same functionality as body-parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+*/
 
 // 3.2) Set up cookieParser middleware to populate req.cookies with any cookies that came along with the request
 app.use(cookieParser());
