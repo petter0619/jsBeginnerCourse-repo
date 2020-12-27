@@ -1,10 +1,10 @@
 // Example data
 const fs = require('fs');
-var path = require("path");
+const path = require("path");
 
-function readStaticJSONFile(filePath) {
+function readJSONFile(filePath) {
     return new Promise((resolve, reject) => {
-        fs.readFile( require('path').resolve(__dirname, filePath) , 'utf-8', (err, data) => {
+        fs.readFile( path.resolve(__dirname, filePath) , 'utf-8', (err, data) => {
             if(err) {
                 reject(err);
             } else {
@@ -14,9 +14,10 @@ function readStaticJSONFile(filePath) {
         });
     });
 };
+//const { readJSONFile } = require('../utils');
 
 // Controllers
-exports.json = async (req, res) => {
-    const json = await readStaticJSONFile('../public/exampleData.json');
+exports.jsonApi = async (req, res) => {
+    const json = await readJSONFile('../public/examples/exampleData.json');
     res.json( json );
 }

@@ -6,7 +6,10 @@ const jsonController = require('../controllers/jsonController');
 const { catchAsyncErrors } = require('../errorHandlers');
 
 // Routes
-router.get('/', catchAsyncErrors(jsonController.json));
+
+// @desc Gets all data from exampleData.json
+// @route = GET /json
+router.get('/', catchAsyncErrors(jsonController.jsonApi));
 
 // Export routes
 module.exports = router;

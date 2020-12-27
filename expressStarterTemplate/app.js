@@ -6,7 +6,7 @@ const errorHandlers = require('./errorHandlers');
 const utils = require('./utils');
 // Routes
 const mainRoutes = require('./routes');
-const jsonRoutes = require('./routes/jsonRoutes');
+const apiRoutes = require('./routes/api');
 
 // 1.1) Set up our Express app
 const app = express();
@@ -34,7 +34,7 @@ app.set('view engine', 'pug');
 
 // 5) Routes
 app.use('/', mainRoutes);
-app.use('/json', jsonRoutes);
+app.use('/api', apiRoutes);
 
 
 // 6) If that above routes didnt work, we 404 them and forward to error handler

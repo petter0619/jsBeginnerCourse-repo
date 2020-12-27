@@ -5,6 +5,9 @@ html(lang="en")
         link(rel="stylesheet", href="/static/css/style.css")
         meta(name="viewport" content="width=device-width, initial-scale=1")
     body
-        include includes/header.pug
+        include mixins/_header.pug
         block content
-        include includes/footer.pug
+        include mixins/_footer.pug
+        
+        block scripts
+            script(src="/static/javascript/scripts.js")
