@@ -15,8 +15,8 @@ const app = express();
 app.use('/static', express.static('public') );
 
 // 3.1) Set up body parser middleware to parse request body
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json());                             // Middleware for parsing JSON objects (aka where Content-Type: application/json header is present)
+app.use(bodyParser.urlencoded({ extended: false }));    // Middleware for parsing bodies from URL (aka does the same as bodyParser.json() but for URL-encoded requests)
 /*
 // 3.1) ALTERNATIVELY you can use the built-in body parser middleware to parse your requests. Exactly the same functionality as body-parser
 app.use(express.json());
