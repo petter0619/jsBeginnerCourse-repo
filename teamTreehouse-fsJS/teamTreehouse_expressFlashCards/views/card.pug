@@ -1,0 +1,15 @@
+extends layout.pug
+
+block content
+    section#content
+        h2= text
+        if hint
+            p
+                i Hint: #{hint}
+            a(href=(currentPath + '?side=answer')) Answer
+        else
+            a(href=(currentPath + '?side=question')) Question
+        br
+        br
+        a(href="/cards") Next card
+        
