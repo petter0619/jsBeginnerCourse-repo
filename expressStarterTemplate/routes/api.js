@@ -1,7 +1,7 @@
 const express = require('express');
 const router =  express.Router();
 // Import route handlers
-const jsonController = require('../controllers/jsonController');
+const apiController = require('../controllers/apiController');
 // Import error handler
 const { catchAsyncErrors } = require('../errorHandlers');
 
@@ -9,7 +9,7 @@ const { catchAsyncErrors } = require('../errorHandlers');
 
 // @desc Gets all data from exampleData.json
 // @route = GET /json
-router.get('/', catchAsyncErrors(jsonController.jsonApi));
+router.get('/', catchAsyncErrors(apiController.jsonApi));
 
 // Export routes
 module.exports = router;
