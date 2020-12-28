@@ -8,16 +8,36 @@ exports.readJSONFile = (filePath) => {
   const fs = require('fs');
   const path = require("path");
   return new Promise((resolve, reject) => {
-      fs.readFile( path.resolve(__dirname, filePath) , 'utf-8', (err, data) => {
-          if(err) {
-              reject(err);
-          } else {
-              const json = JSON.parse(data);
-              resolve(json);
-          }
-      });
+        const _path = path.resolve(__dirname, filePath);
+        fs.readFile(  _path, 'utf-8', (err, data) => {
+            if(err) {
+                reject(err);
+            } else {
+                const json = JSON.parse(data);
+                resolve(json);
+            }
+        });
   });
 };
+
+// Overwrites a files content with JSON
+// PARAM: data == content that is converted to JSON (pref. an object)
+// PARAM: filePATH == a string with file path relative to where this utils.js file is
+exports.writeJSONtoFile = (filePath, data = {}) => { // rewrites the entire file
+    const fs = require('fs');
+    const path = require("path");
+    return new Promise((resolve, reject) => {
+        const newContent = JSON.stringify(data, null, 2);
+        const _path = path.resolve(__dirname, filePath);
+        fs.writeFile(_path, newContent, (err) => {
+            if (err) {
+            reject(err);
+            } else {
+            resolve();
+            }
+        });
+    });
+}
 
 // Get a random number between X and Y
 exports.getRandomBetween = (min, max, randomNumber = Math.random()) => {

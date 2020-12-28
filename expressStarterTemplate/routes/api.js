@@ -8,8 +8,13 @@ const { catchAsyncErrors } = require('../errorHandlers');
 // Routes
 
 // @desc Gets all data from exampleData.json
-// @route = GET /json
-router.get('/', catchAsyncErrors(apiController.jsonApi));
+// @route = GET /api
+router.get('/', catchAsyncErrors(apiController.getJSON));
+
+
+// @desc Creates a new item in the "array" array in exampleData.json
+// @route = POST /api
+router.post('/', catchAsyncErrors(apiController.postJSON));
 
 // Export routes
 module.exports = router;

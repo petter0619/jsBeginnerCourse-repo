@@ -1,23 +1,22 @@
 // Example data
-const fs = require('fs');
-const path = require("path");
-
-function readJSONFile(filePath) {
-    return new Promise((resolve, reject) => {
-        fs.readFile( path.resolve(__dirname, filePath) , 'utf-8', (err, data) => {
-            if(err) {
-                reject(err);
-            } else {
-                const json = JSON.parse(data);
-                resolve(json);
-            }
-        });
-    });
-};
-//const { readJSONFile } = require('../utils');
+const { readJSONFile, writeJSONtoFile } = require('../utils');
 
 // Controllers
-exports.jsonApi = async (req, res) => {
-    const json = await readJSONFile('../public/examples/exampleData.json');
+exports.getJSON = async (req, res) => {
+    const json = await readJSONFile('./public/examples/exampleData.json');
     res.json( json );
+}
+
+exports.postJSON = async (req,res) => {
+    const file = './public/examples/exampleData.json';
+    const postBody = req.body;
+
+    if( Object.keys(postBody).length ) {
+        const exampleData = await readJSONFile( file );
+        exampleData.array.push(postBody);
+        await writeJSONtoFile( file, exampleData );
+        res.status(201).json( exampleData );
+    } else {
+        res.status(400).json({ "error": "Must include at least one property" });
+    }
 }
