@@ -12,27 +12,26 @@ const apiRoutes = require('./routes/api');
 // 1.1) Set up our Express app
 const app = express();
 
-// OPT - Set up CORS
-app.use(cors());
-/*
-// Enable all CORS requests
-    app.use(cors());
+// IF (application === API) { enableCORS(options) }
+    /*
+    // Enable all CORS requests
+        app.use(cors());
 
-// Enable CORS for a single route example:
-    app.get('/api/path', cors(), function (req, res, next) {
-        res.json({msg: 'This is CORS-enabled for a Single Route'})
-    });
+    // Enable CORS for a single route example:
+        app.get('/api/path', cors(), function (req, res, next) {
+            res.json({msg: 'This is CORS-enabled for a Single Route'})
+        });
 
 
-// Enable CORS from single origin domain
-    const corsOptions = {
-    origin: 'http://example.com',
-    optionsSuccessStatus: 200 //some legacy browsers (IE11, various SmartTVs) choke on 204
-    }
-    app.use(cors(corsOptions));
+    // Enable CORS from single domain
+        const corsOptions = {
+            origin: 'http://example.com',
+            optionsSuccessStatus: 200 //some legacy browsers (IE11, various SmartTVs) choke on 204
+        }
+        app.use(cors(corsOptions));
 
-// See more config options: https://expressjs.com/en/resources/middleware/cors.html
-*/
+    // See more config options at: https://expressjs.com/en/resources/middleware/cors.html
+    */
 
 
 // 2) Set up static server for your static assets (CSS, images, client side JS, etc)
