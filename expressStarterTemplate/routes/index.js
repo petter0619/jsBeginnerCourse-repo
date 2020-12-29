@@ -7,7 +7,6 @@ const router =  express.Router();
 // @route = GET /
 router.get('/', (req, res) => {
     const name = req.cookies.name;
-
     res.render('index', { name, title:'Hello, world!' });
 });
 

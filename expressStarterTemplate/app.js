@@ -49,7 +49,15 @@ app.use(bodyParser.urlencoded({ extended: false }));    // Middleware for parsin
 // 3.2) Set up cookieParser middleware to populate req.cookies with any cookies that came along with the request
 app.use(cookieParser());
 
-// res.locals = variable available inside all your templates.
+
+// app.locals = Variables available throughout your app via req.app.locals.variableName
+app.use( (req, res, next) => {
+    app.locals.database = '----------- DATABASE CONNECTION ------------';
+    next();
+});
+
+
+// res.locals = Variables available inside all your templates.
 app.use( (req, res, next) => {
     res.locals.currentPath = req.path;
     res.locals.siteName = 'Express Starter Template';
