@@ -50,15 +50,16 @@ app.use(bodyParser.urlencoded({ extended: false }));    // Middleware for parsin
 app.use(cookieParser());
 
 
-// app.locals = Variables available throughout your app via req.app.locals.variableName
+// [OPTIONAL] app.locals = Variables available throughout your app via req.app.locals.variableName
 app.use( (req, res, next) => {
     app.locals.database = '----------- DATABASE CONNECTION ------------';
     next();
 });
 
 
-// res.locals = Variables available inside all your templates.
+// [OPTIONAL] res.locals = Variables available inside all your templates.
 app.use( (req, res, next) => {
+    res.locals.explanation = 'This variable is available in all templates...';
     res.locals.currentPath = req.path;
     res.locals.siteName = 'Express Starter Template';
     res.locals.utils = utils;

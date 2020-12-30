@@ -24,5 +24,6 @@ router.post('/goodbye', (req, res) => {
     res.redirect('/');
 });
 
+
 // Export routes
 module.exports = router;
