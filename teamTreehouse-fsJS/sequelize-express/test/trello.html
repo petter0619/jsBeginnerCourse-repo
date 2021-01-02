@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trello API Playground</title>
+</head>
+<body>
+    <h1>Trello API</h1>
+    <ul>
+        <li>My API Key: 271c16c31d2a1c81085cfd3cabd3e7df</li>
+        <li>My personal account Token (aka user token = how to make changes for that user): 0639e5836995c4d6b7fa97792d8dfe3345afe51b6e5db90e49a58ebe21091276</li>
+        <li><a href="https://trello.com/pettercarlsson/boards">Link to my Trello boards</a></li>
+    </ul>
+    
+    <h3>Instruction links</h3>
+    <ul>
+        <li><a href="https://developer.atlassian.com/cloud/trello/rest/api-group-boards/">List of all available methods</a></li>
+        <li><a href="https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/">Intro to API</a></li>
+        <li><a href="https://developer.atlassian.com/cloud/trello/guides/rest-api/authorization/">How to authorise a user (get a token to be able to make changes to their account)</a></li>
+        <li><a href="https://developer.atlassian.com/cloud/trello/guides/client-js/client-js-reference/">Accessing API with Client.js (jQuery based thingy)...</a></li>
+    </ul>
+    
+    
+    <!-- Javascript -->
+    <script>
+        const yourKey = '271c16c31d2a1c81085cfd3cabd3e7df';
+        const yourToken = '0639e5836995c4d6b7fa97792d8dfe3345afe51b6e5db90e49a58ebe21091276';
+        
+        const allBoards = `https://api.trello.com/1/members/me/boards?key=${yourKey}&token=${yourToken}`;
+        const danceBoardID = '5f7dacdca3883d8598cf4ffe';
+        const danceBoard = `https://api.trello.com/1/boards/${danceBoardID}?key=${yourKey}&token=${yourToken}`;
+
+        const allLists = `https://api.trello.com/1/boards/${danceBoardID}/lists?key=${yourKey}&token=${yourToken}`;
+
+        const sthlmListID = '5f7dace2b2bd4246d2745193';
+        const sthlmList = `https://api.trello.com/1/lists/${sthlmListID}/cards?key=${yourKey}&token=${yourToken}`;
+
+        fetch(allBoards)
+            .then(response => response.json())
+            .then(data => console.log('All Boards:', data));
+        
+        fetch(danceBoard)
+            .then(response => response.json())
+            .then(data => console.log('Dance Board:', data));
+
+        fetch(allLists)
+            .then(response => response.json())
+            .then(data => console.log('All Lists in Dance Board:', data));
+        
+        fetch(sthlmList)
+            .then(response => response.json())
+            .then(data => console.log('---------> sthlmList - First Card:', data[0] ));
+        
+        // TEST: Add a new comment (review) on iDance card
+        const iDanceCardID = '5f7daceea1b92a86479ab87d';
+        const reviewText = 'This is a great place to dance! 5 stars!!!';
+        const cardEndpoint = `https://api.trello.com/1/cards/${iDanceCardID}/actions/comments?key=${yourKey}&token=${yourToken}&text=${reviewText}`;
+
+        /*
+        fetch(cardEndpoint, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => console.log('----- New Review -----', data ));
+        */
+
+        // A database to save ID's of cards, boards, etc would be nice!!!
+
+
+        // TEST: Create a new board
+        const newBoardName = 'TEST BOARD';
+        const createNewBoard = `https://api.trello.com/1/boards/?key=${yourKey}&token=${yourToken}&name=${newBoardName}`;
+
+        /*
+        fetch(createNewBoard, { method: 'POST'})
+            .then(response => response.json())
+            .then(data => console.log('----- New Board -----', data ));
+        */
+
+    </script>
+</body>
+</html>

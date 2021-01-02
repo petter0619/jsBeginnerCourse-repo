@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trello Auth Test - via Client.js</title>
+    <!-- Trello Client.js && jQuery dependency -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://api.trello.com/1/client.js?key=271c16c31d2a1c81085cfd3cabd3e7df"></script>
+</head>
+<body>
+    <button class="authorize">1) Authorize Trello</button>
+
+    <button class="fetch">2) Fetch Boards</button>
+
+    <button class="fetchLists">3) Fetch Lists</button>
+
+    <button class="fetchCards">4) Fetch Cards on List</button>
+
+    <button class="addCard">5) Add Card</button>
+
+    <!-- Javascript -->
+
+    <script>
+        console.log('Authorised domains for API key: http://127.0.0.1:5500/trelloAuthTest.html');
+        console.log('Authorise more domains by logging in att Trello.com and then going to: trello.com/app-key');
+        console.log('0) User token:',Trello.token());
+
+        const apiKey = '271c16c31d2a1c81085cfd3cabd3e7df';
+        const firstTestToken = '0639e5836995c4d6b7fa97792d8dfe3345afe51b6e5db90e49a58ebe21091276';
+
+        var authenticationSuccess = function() {
+            console.log('Successful authentication');
+            console.log( '1) User token = ', Trello.token() );
+            //console.log( Trello.token() == firstTestToken );
+        };
+
+        var authenticationFailure = function() {
+            console.log('Failed authentication');
+        };
+
+        function authorizeTrello() {
+            window.Trello.authorize({
+                type: 'popup',
+                name: 'Getting Started Application',
+                scope: {
+                    read: 'true',
+                    write: 'true' },
+                expiration: 'never',
+                success: authenticationSuccess,
+                error: authenticationFailure
+            });
+        }
+
+        document.querySelector('.authorize').addEventListener('click', authorizeTrello);
+        
+        // ------------------------------------------------------
+
+        const path = '/members/me/boards';
+        const params = {};
+
+        let boardID = ''; // FOr fetchLists
+
+        const success = (res) => {
+            console.log(res);
+            boardID = res[0].id;
+            console.log('2) BoardID = ',boardID);
+        }
+        const error = (err) => {
+            console.log(err);
+        }
+
+        const fetchBoards = async() => {
+            await Trello.get(path, params, success, error);
+        }
+
+        /*fetch(allBoards)
+            .then(response => response.json())
+            .then(data => console.log('All Boards:', data));
+        */
+
+        document.querySelector('.fetch').addEventListener('click', fetchBoards);
+
+        // ------------------------------------------------------
+
+        let listID = '';
+
+        const fetchLists = async () => {
+            const path = `/boards/${boardID}/lists`;
+            const params = {};
+            const success = (res) => {
+                console.log(res);
+                console.log('3) List name ++ List id', res[0].name, res[0].id);
+                listID = res[0].id;
+            }
+            const error = (err) => {
+                console.log(err);
+            }
+            await Trello.get(path, params, success, error);
+        }
+
+
+        document.querySelector('.fetchLists').addEventListener('click', fetchLists);
+
+        // ------------------------------------------------------
+
+        const addCard = async (name, desc, idLabels) => {
+            const path = `/cards`; // /cards?idList=${listID}&name='Test Card'&desc='Test description'
+            const params = {
+                idList: listID,
+                name: name,
+                desc: desc,
+                idLabels: idLabels
+            };
+            const success = (res) => {
+                console.log('5) Card created =',res);
+            }
+            const error = (err) => {
+                console.log(err);
+            }
+            await Trello.post(path, params, success, error);
+
+        }
+
+        const newCardName = 'Stockholm Salsa Dance';
+        const newCardDesc = 'We teach bachata and salsa.';
+        const newCardLabels = '5f7dacdccdabcf46c08b3f29,5f7dacdccdabcf46c08b3f2d';
+
+        // Seems like you need to wrap the addCard function in an arrow function IF passing in params for name, desc, etc
+        document.querySelector('.addCard').addEventListener('click', () => {
+            addCard(newCardName, newCardDesc, newCardLabels);
+        });
+
+        // ------------------------------------------------------
+
+        const fetchCards = async () => {
+            const path = `/lists/${listID}/cards`;
+            const params = {};
+            const success = (res) => {
+                //console.log(res);
+                console.log('4) Cards in list:', res);
+            }
+            const error = (err) => {
+                console.log(err);
+            }
+            await Trello.get(path, params, success, error);
+        }
+
+        document.querySelector('.fetchCards').addEventListener('click', fetchCards);
+
+    </script>
+</body>
+</html>
