@@ -42,7 +42,6 @@ router.post('/', asyncHandler(async (req, res) => {
       throw error; // error caught in the asyncHandler's catch block
     }
   }
-  
 }));
 
 /* Edit article form. */
